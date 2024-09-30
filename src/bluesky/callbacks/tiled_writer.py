@@ -27,7 +27,7 @@ from .core import MIMETYPE_LOOKUP, CallbackBase
 
 
 class TiledWriter:
-    "Write metadata and data from Bluesky documents into Tiled."
+    """Write metadata and data from Bluesky documents into Tiled."""
 
     def __init__(self, client):
         self.client = client
