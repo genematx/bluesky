@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Tutorial &#8212; bluesky 0.1.dev5061+gf25df0b documentation</title>
+    <title>Tutorial &#8212; bluesky 0.1.dev5179+g3956788 documentation</title>
   
   
   
@@ -16,35 +16,39 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
   
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=e309cc7d"></script>
+    <script src="_static/documentation_options.js?v=040f89a2"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://blueskyproject.io/bluesky/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.1.dev5061+gf25df0b';
-        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.1.dev5179+g3956788';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
         </script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -52,6 +56,7 @@
     <link rel="prev" title="User Documentation" href="userindex.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.1.dev5179+g3956788" />
   </head>
   
   
@@ -67,19 +72,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -87,7 +81,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -95,8 +88,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -130,7 +123,7 @@
     
     
     <img src="_static/bluesky-logo-dark.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="_static/bluesky-logo-dark.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="_static/bluesky-logo-dark.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">bluesky</p>
@@ -182,7 +175,9 @@
 </li>
 
             <li class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
@@ -235,29 +230,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -288,28 +275,24 @@ document.write(`
 </ul></div>
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <div class="version-switcher__container dropdown">
-    <button id="pst-version-switcher-button-2"
-      type="button"
-      class="version-switcher__button btn btn-sm dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-haspopup="listbox"
-      aria-controls="pst-version-switcher-list-2"
-      aria-label="Version switcher list"
-    >
-      Choose version  <!-- this text may get changed later by javascript -->
-      <span class="caret"></span>
-    </button>
-    <div id="pst-version-switcher-list-2"
-      class="version-switcher__menu dropdown-menu list-group-flush py-0"
-      role="listbox" aria-labelledby="pst-version-switcher-button-2">
-      <!-- dropdown will be populated by javascript on page load -->
-    </div>
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
   </div>
-`);
-</script></div>
+</div></div>
       
     </div>
     
@@ -318,15 +301,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -345,7 +324,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -441,15 +421,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -480,28 +456,24 @@ document.write(`
 </ul></div>
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <div class="version-switcher__container dropdown">
-    <button id="pst-version-switcher-button-3"
-      type="button"
-      class="version-switcher__button btn btn-sm dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-haspopup="listbox"
-      aria-controls="pst-version-switcher-list-3"
-      aria-label="Version switcher list"
-    >
-      Choose version  <!-- this text may get changed later by javascript -->
-      <span class="caret"></span>
-    </button>
-    <div id="pst-version-switcher-list-3"
-      class="version-switcher__menu dropdown-menu list-group-flush py-0"
-      role="listbox" aria-labelledby="pst-version-switcher-button-3">
-      <!-- dropdown will be populated by javascript on page load -->
-    </div>
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
   </div>
-`);
-</script></div>
+</div></div>
         
       </div>
     
@@ -540,9 +512,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -560,8 +537,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -573,7 +548,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="userindex.html" class="nav-link">User Documentation</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Tutorial</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Tutorial</span></li>
   </ul>
 </nav>
 </div>
@@ -602,12 +577,12 @@ software, and you can skip the rest of this section.  Go to
 <a class="reference external" href="https://try.nsls2.bnl.gov">https://try.nsls2.bnl.gov</a>.</p>
 </div>
 <ul>
-<li><p>You will need Python 3.8 or newer. From a shell (“Terminal” on OSX,
+<li><p>You will need Python 3.9 or newer. From a shell (“Terminal” on OSX,
 “Command Prompt” on Windows), check your current Python version.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>--version
 </pre></div>
 </div>
-<p>If that version is less than 3.8, you must update it.</p>
+<p>If that version is less than 3.9, you must update it.</p>
 <p>We recommend install bluesky into a “virtual environment” so this
 installation will not interfere with any existing Python software:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/bluesky-tutorial
@@ -617,7 +592,7 @@ installation will not interfere with any existing Python software:</p>
 <p>Alternatively, if you are a
 <a class="reference external" href="https://conda.io/docs/user-guide/install/download.html">conda</a> user,
 you can create a conda environment:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>bluesky-tutorial<span class="w"> </span><span class="s2">&quot;python&gt;=3.8&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>bluesky-tutorial<span class="w"> </span><span class="s2">&quot;python&gt;=3.9&quot;</span>
 conda<span class="w"> </span>activate<span class="w"> </span>bluesky-tutorial
 </pre></div>
 </div>
@@ -689,7 +664,7 @@ should get something like:</p>
 <code class="docutils literal notranslate"><span class="pre">NameError</span></code>, you’ll need to finish this section.</p>
 </div>
 <p>Create a RunEngine:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
 
 <span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
 </pre></div>
@@ -705,7 +680,7 @@ preferred format. See <a class="reference internal" href="callbacks.html"><span 
 <h3>Prepare Live Visualization<a class="headerlink" href="#prepare-live-visualization" title="Link to this heading">#</a></h3>
 <p>To start, let’s use the all-purpose
 <code class="xref py py-class docutils literal notranslate"><span class="pre">BestEffortCallback</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.callbacks.best_effort</span> <span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks.best_effort</span><span class="w"> </span><span class="kn">import</span> <span class="n">BestEffortCallback</span>
 <span class="n">bec</span> <span class="o">=</span> <span class="n">BestEffortCallback</span><span class="p">()</span>
 
 <span class="c1"># Send all metadata/data captured to the BestEffortCallback.</span>
@@ -728,7 +703,7 @@ experiment. But for this tutorial and for many real experiments, the
 with bluesky, is an interface to searchable storage for metadata and data
 generated by bluesky. For this tutorial, we will spin up a databroker backed by
 temporary files.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">databroker</span> <span class="kn">import</span> <span class="n">Broker</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">databroker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Broker</span>
 <span class="n">db</span> <span class="o">=</span> <span class="n">Broker</span><span class="o">.</span><span class="n">named</span><span class="p">(</span><span class="s1">&#39;temp&#39;</span><span class="p">)</span>
 
 <span class="c1"># Insert all metadata/data captured into db.</span>
@@ -746,7 +721,7 @@ creates a fresh, separate temporary database.</p>
 <section id="add-a-progress-bar">
 <h3>Add a Progress Bar<a class="headerlink" href="#add-a-progress-bar" title="Link to this heading">#</a></h3>
 <p>Optionally, you can configure a progress bar.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.utils</span> <span class="kn">import</span> <span class="n">ProgressBarManager</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProgressBarManager</span>
 <span class="n">RE</span><span class="o">.</span><span class="n">waiting_hook</span> <span class="o">=</span> <span class="n">ProgressBarManager</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -766,11 +741,11 @@ motors. In the examples that follow, we will use simulated hardware from
 <a class="reference external" href="https://nsls-ii.github.io/ophyd">ophyd</a>, a library developed in tandem with
 bluesky. In a <a class="reference internal" href="#tutorial-device"><span class="std std-ref">later section</span></a> we will see what it looks
 like to configure <em>real</em> hardware with ophyd.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">det1</span><span class="p">,</span> <span class="n">det2</span>  <span class="c1"># two simulated detectors</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">det1</span><span class="p">,</span> <span class="n">det2</span>  <span class="c1"># two simulated detectors</span>
 </pre></div>
 </div>
 <p>Using the RunEngine, <code class="docutils literal notranslate"><span class="pre">RE</span></code>, “count” the detectors:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">count</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">count</span>
 <span class="n">dets</span> <span class="o">=</span> <span class="p">[</span><span class="n">det1</span><span class="p">,</span> <span class="n">det2</span><span class="p">]</span>   <span class="c1"># a list of any number of detectors</span>
 
 <span class="n">RE</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="n">dets</span><span class="p">))</span>
@@ -780,19 +755,19 @@ like to configure <em>real</em> hardware with ophyd.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [2]: </span><span class="n">RE</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="n">dets</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 1     Time: 2024-08-26 21:59:19</span>
-<span class="go">Persistent Unique Scan ID: &#39;6752b7be-55cc-4c93-989b-7d304add1f08&#39;</span>
+<span class="go">Transient Scan ID: 1     Time: 2025-01-31 17:22:16</span>
+<span class="go">Persistent Unique Scan ID: &#39;1b75c85f-a55c-467c-a437-6e8e131d43a2&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |       det2 |       det1 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:59:19.0 |      1.213 |      0.000 |</span>
+<span class="go">|         1 | 17:22:16.2 |      1.213 |      0.000 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator count [&#39;6752b7be&#39;] (scan num: 1)</span>
+<span class="go">generator count [&#39;1b75c85f&#39;] (scan num: 1)</span>
 
 
 
-<span class="gh">Out[2]: </span><span class="go">(&#39;6752b7be-55cc-4c93-989b-7d304add1f08&#39;,)</span>
+<span class="gh">Out[2]: </span><span class="go">(&#39;1b75c85f-a55c-467c-a437-6e8e131d43a2&#39;,)</span>
 </pre></div>
 </div>
 <p>A key feature of bluesky is that these detectors could be simple photodiodes or
@@ -829,28 +804,28 @@ baseline readings to be taken automatically before every experiment.</p></li>
 <p class="admonition-title">Warning</p>
 <p>Notice that entering a plan by itself doesn’t do anything:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [3]: </span><span class="n">count</span><span class="p">(</span><span class="n">dets</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="gh">Out[3]: </span><span class="go">&lt;generator object count at 0x7f52836b1a80&gt;</span>
+<span class="gh">Out[3]: </span><span class="go">&lt;generator object count at 0x7fd4e9b34180&gt;</span>
 </pre></div>
 </div>
 <p>If we mean to <em>execute</em> the plan, we must use the RunEngine:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="n">RE</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="n">dets</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 2     Time: 2024-08-26 21:59:19</span>
-<span class="go">Persistent Unique Scan ID: &#39;c559e904-0039-4f5b-bd75-8f8bb9fd0869&#39;</span>
+<span class="go">Transient Scan ID: 2     Time: 2025-01-31 17:22:16</span>
+<span class="go">Persistent Unique Scan ID: &#39;b5c836f1-fa5a-4897-8d7b-84b70b4e89e7&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+</span>
 <span class="go">|   seq_num |       time |        det |</span>
 <span class="go">+-----------+------------+------------+</span>
-<span class="go">|         1 | 21:59:19.1 |      0.000 |</span>
-<span class="go">|         2 | 21:59:19.2 |      0.000 |</span>
-<span class="go">|         3 | 21:59:19.2 |      0.000 |</span>
+<span class="go">|         1 | 17:22:16.3 |      0.000 |</span>
+<span class="go">|         2 | 17:22:16.4 |      0.000 |</span>
+<span class="go">|         3 | 17:22:16.4 |      0.000 |</span>
 <span class="go">+-----------+------------+------------+</span>
-<span class="go">generator count [&#39;c559e904&#39;] (scan num: 2)</span>
+<span class="go">generator count [&#39;b5c836f1&#39;] (scan num: 2)</span>
 
 
 
-<span class="gh">Out[4]: </span><span class="go">(&#39;c559e904-0039-4f5b-bd75-8f8bb9fd0869&#39;,)</span>
+<span class="gh">Out[4]: </span><span class="go">(&#39;b5c836f1-fa5a-4897-8d7b-84b70b4e89e7&#39;,)</span>
 </pre></div>
 </div>
 </div>
@@ -860,8 +835,8 @@ baseline readings to be taken automatically before every experiment.</p></li>
 <p>Use <a class="reference internal" href="generated/bluesky.plans.scan.html#bluesky.plans.scan" title="bluesky.plans.scan"><code class="xref py py-func docutils literal notranslate"><span class="pre">scan()</span></code></a> to scan <code class="docutils literal notranslate"><span class="pre">motor</span></code> from <code class="docutils literal notranslate"><span class="pre">-1</span></code> to <code class="docutils literal notranslate"><span class="pre">1</span></code> in ten
 equally-spaced steps, wait for it to arrive at each step, and then trigger and
 read some detector, <code class="docutils literal notranslate"><span class="pre">det</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">det</span><span class="p">,</span> <span class="n">motor</span>
-<span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">scan</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">det</span><span class="p">,</span> <span class="n">motor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">scan</span>
 <span class="n">dets</span> <span class="o">=</span> <span class="p">[</span><span class="n">det</span><span class="p">]</span>   <span class="c1"># just one in this case, but it could be more than one</span>
 
 <span class="n">RE</span><span class="p">(</span><span class="n">scan</span><span class="p">(</span><span class="n">dets</span><span class="p">,</span> <span class="n">motor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
@@ -870,28 +845,28 @@ read some detector, <code class="docutils literal notranslate"><span class="pre"
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [5]: </span><span class="n">RE</span><span class="p">(</span><span class="n">scan</span><span class="p">(</span><span class="n">dets</span><span class="p">,</span> <span class="n">motor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 3     Time: 2024-08-26 21:59:19</span>
-<span class="go">Persistent Unique Scan ID: &#39;4c8ea158-b70b-458e-9647-422c18321979&#39;</span>
+<span class="go">Transient Scan ID: 3     Time: 2025-01-31 17:22:16</span>
+<span class="go">Persistent Unique Scan ID: &#39;fae7c3ea-42b5-4768-97c4-db23fe0fce40&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |      motor |        det |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:59:19.5 |     -1.000 |      0.607 |</span>
-<span class="go">|         2 | 21:59:19.5 |     -0.778 |      0.739 |</span>
-<span class="go">|         3 | 21:59:19.6 |     -0.556 |      0.857 |</span>
-<span class="go">|         4 | 21:59:19.6 |     -0.333 |      0.946 |</span>
-<span class="go">|         5 | 21:59:19.7 |     -0.111 |      0.994 |</span>
-<span class="go">|         6 | 21:59:19.7 |      0.111 |      0.994 |</span>
-<span class="go">|         7 | 21:59:19.8 |      0.333 |      0.946 |</span>
-<span class="go">|         8 | 21:59:19.8 |      0.556 |      0.857 |</span>
-<span class="go">|         9 | 21:59:19.9 |      0.778 |      0.739 |</span>
-<span class="go">|        10 | 21:59:19.9 |      1.000 |      0.607 |</span>
+<span class="go">|         1 | 17:22:16.6 |     -1.000 |      0.607 |</span>
+<span class="go">|         2 | 17:22:16.7 |     -0.778 |      0.739 |</span>
+<span class="go">|         3 | 17:22:16.7 |     -0.556 |      0.857 |</span>
+<span class="go">|         4 | 17:22:16.8 |     -0.333 |      0.946 |</span>
+<span class="go">|         5 | 17:22:16.8 |     -0.111 |      0.994 |</span>
+<span class="go">|         6 | 17:22:16.9 |      0.111 |      0.994 |</span>
+<span class="go">|         7 | 17:22:16.9 |      0.333 |      0.946 |</span>
+<span class="go">|         8 | 17:22:17.0 |      0.556 |      0.857 |</span>
+<span class="go">|         9 | 17:22:17.0 |      0.778 |      0.739 |</span>
+<span class="go">|        10 | 17:22:17.1 |      1.000 |      0.607 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator scan [&#39;4c8ea158&#39;] (scan num: 3)</span>
+<span class="go">generator scan [&#39;fae7c3ea&#39;] (scan num: 3)</span>
 
 
 
-<span class="gh">Out[5]: </span><span class="go">(&#39;4c8ea158-b70b-458e-9647-422c18321979&#39;,)</span>
+<span class="gh">Out[5]: </span><span class="go">(&#39;fae7c3ea-42b5-4768-97c4-db23fe0fce40&#39;,)</span>
 </pre></div>
 </div>
 <figure class="align-default">
@@ -910,14 +885,14 @@ Of course, if peak statistics are not applicable, you may just ignore this
 feature.</p>
 <p>Use <a class="reference internal" href="generated/bluesky.plans.rel_scan.html#bluesky.plans.rel_scan" title="bluesky.plans.rel_scan"><code class="xref py py-func docutils literal notranslate"><span class="pre">rel_scan()</span></code></a> to scan from <code class="docutils literal notranslate"><span class="pre">-1</span></code> to <code class="docutils literal notranslate"><span class="pre">1</span></code> <em>relative to
 the current position</em>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">rel_scan</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">rel_scan</span>
 
 <span class="n">RE</span><span class="p">(</span><span class="n">rel_scan</span><span class="p">(</span><span class="n">dets</span><span class="p">,</span> <span class="n">motor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Use <a class="reference internal" href="generated/bluesky.plans.list_scan.html#bluesky.plans.list_scan" title="bluesky.plans.list_scan"><code class="xref py py-func docutils literal notranslate"><span class="pre">list_scan()</span></code></a> to scan points with some arbitrary
 spacing.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">list_scan</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">list_scan</span>
 
 <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">]</span>
 
@@ -937,14 +912,14 @@ next section.</p>
 with an arbitrary number of dimensions, not just two.</p>
 <p>We’ll use the same plans that we used in the previous section. (If you already
 imported them, there is no need to do so again.)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">scan</span><span class="p">,</span> <span class="n">rel_scan</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">scan</span><span class="p">,</span> <span class="n">rel_scan</span>
 </pre></div>
 </div>
 <p>We’ll use two new motors and a new detector that is coupled to them via
 a simulation. It simulates a 2D Gaussian peak centered at <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0)</span></code>.
 Again, we emphasize that these “motors” could be anything that can be “set”
 (temperature controller, pseudo-axis, sample changer).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">det4</span><span class="p">,</span> <span class="n">motor1</span><span class="p">,</span> <span class="n">motor2</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">det4</span><span class="p">,</span> <span class="n">motor1</span><span class="p">,</span> <span class="n">motor2</span>
 <span class="n">dets</span> <span class="o">=</span> <span class="p">[</span><span class="n">det4</span><span class="p">]</span>   <span class="c1"># just one in this case, but it could be more than one</span>
 </pre></div>
 </div>
@@ -966,29 +941,29 @@ are not technically meaningful; you may take them or leave them.</p>
 <span class="gp">   ...: </span>
 
 
-<span class="go">Transient Scan ID: 4     Time: 2024-08-26 21:59:21</span>
-<span class="go">Persistent Unique Scan ID: &#39;d1e9d2ad-b87e-4d42-b87e-e4a037bd78e7&#39;</span>
+<span class="go">Transient Scan ID: 4     Time: 2025-01-31 17:22:18</span>
+<span class="go">Persistent Unique Scan ID: &#39;f564e046-ca1b-49de-b6d6-9379ed1ed59c&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |     motor1 |     motor2 |       det4 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:59:21.2 |     -1.500 |     -0.100 |      0.323 |</span>
-<span class="go">|         2 | 21:59:21.3 |     -1.200 |     -0.080 |      0.485 |</span>
-<span class="go">|         3 | 21:59:21.4 |     -0.900 |     -0.060 |      0.666 |</span>
-<span class="go">|         4 | 21:59:21.5 |     -0.600 |     -0.040 |      0.835 |</span>
-<span class="go">|         5 | 21:59:21.5 |     -0.300 |     -0.020 |      0.956 |</span>
-<span class="go">|         6 | 21:59:21.6 |      0.000 |      0.000 |      1.000 |</span>
-<span class="go">|         7 | 21:59:21.6 |      0.300 |      0.020 |      0.956 |</span>
-<span class="go">|         8 | 21:59:21.7 |      0.600 |      0.040 |      0.835 |</span>
-<span class="go">|         9 | 21:59:21.7 |      0.900 |      0.060 |      0.666 |</span>
-<span class="go">|        10 | 21:59:21.8 |      1.200 |      0.080 |      0.485 |</span>
-<span class="go">|        11 | 21:59:21.8 |      1.500 |      0.100 |      0.323 |</span>
+<span class="go">|         1 | 17:22:18.2 |     -1.500 |     -0.100 |      0.323 |</span>
+<span class="go">|         2 | 17:22:18.3 |     -1.200 |     -0.080 |      0.485 |</span>
+<span class="go">|         3 | 17:22:18.3 |     -0.900 |     -0.060 |      0.666 |</span>
+<span class="go">|         4 | 17:22:18.4 |     -0.600 |     -0.040 |      0.835 |</span>
+<span class="go">|         5 | 17:22:18.4 |     -0.300 |     -0.020 |      0.956 |</span>
+<span class="go">|         6 | 17:22:18.5 |      0.000 |      0.000 |      1.000 |</span>
+<span class="go">|         7 | 17:22:18.5 |      0.300 |      0.020 |      0.956 |</span>
+<span class="go">|         8 | 17:22:18.6 |      0.600 |      0.040 |      0.835 |</span>
+<span class="go">|         9 | 17:22:18.6 |      0.900 |      0.060 |      0.666 |</span>
+<span class="go">|        10 | 17:22:18.7 |      1.200 |      0.080 |      0.485 |</span>
+<span class="go">|        11 | 17:22:18.7 |      1.500 |      0.100 |      0.323 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">generator scan [&#39;d1e9d2ad&#39;] (scan num: 4)</span>
+<span class="go">generator scan [&#39;f564e046&#39;] (scan num: 4)</span>
 
 
 
-<span class="gh">Out[6]: </span><span class="go">(&#39;d1e9d2ad-b87e-4d42-b87e-e4a037bd78e7&#39;,)</span>
+<span class="gh">Out[6]: </span><span class="go">(&#39;f564e046-ca1b-49de-b6d6-9379ed1ed59c&#39;,)</span>
 </pre></div>
 </div>
 <figure class="align-default">
@@ -998,7 +973,7 @@ are not technically meaningful; you may take them or leave them.</p>
 from <code class="docutils literal notranslate"><span class="pre">ophyd.sim</span></code> and running a 3-motor scan.</p>
 <p>To move motors along arbitrary trajectories instead of equally-spaced points,
 use <a class="reference internal" href="generated/bluesky.plans.list_scan.html#bluesky.plans.list_scan" title="bluesky.plans.list_scan"><code class="xref py py-func docutils literal notranslate"><span class="pre">list_scan()</span></code></a> and <a class="reference internal" href="generated/bluesky.plans.rel_list_scan.html#bluesky.plans.rel_list_scan" title="bluesky.plans.rel_list_scan"><code class="xref py py-func docutils literal notranslate"><span class="pre">rel_list_scan()</span></code></a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">list_scan</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">list_scan</span>
 
 <span class="c1"># Scan motor1 and motor2 jointly through a 5-point trajectory.</span>
 <span class="n">RE</span><span class="p">(</span><span class="n">list_scan</span><span class="p">(</span><span class="n">dets</span><span class="p">,</span> <span class="n">motor1</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="n">motor2</span><span class="p">,</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
@@ -1011,23 +986,23 @@ use <a class="reference internal" href="generated/bluesky.plans.list_scan.html#b
 <span class="gp">   ...: </span>
 
 
-<span class="go">Transient Scan ID: 5     Time: 2024-08-26 21:59:23</span>
-<span class="go">Persistent Unique Scan ID: &#39;11b6251c-128e-4205-9ecd-106e78797e8a&#39;</span>
+<span class="go">Transient Scan ID: 5     Time: 2025-01-31 17:22:20</span>
+<span class="go">Persistent Unique Scan ID: &#39;b54466f7-4035-4468-be96-53eca5b27621&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |     motor1 |     motor2 |       det4 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:59:23.3 |      1.000 |     25.000 |      0.000 |</span>
-<span class="go">|         2 | 21:59:23.4 |      1.000 |     16.000 |      0.000 |</span>
-<span class="go">|         3 | 21:59:23.5 |      3.000 |      9.000 |      0.000 |</span>
-<span class="go">|         4 | 21:59:23.5 |      5.000 |      4.000 |      0.000 |</span>
-<span class="go">|         5 | 21:59:23.6 |      8.000 |      1.000 |      0.000 |</span>
+<span class="go">|         1 | 17:22:20.0 |      1.000 |     25.000 |      0.000 |</span>
+<span class="go">|         2 | 17:22:20.1 |      1.000 |     16.000 |      0.000 |</span>
+<span class="go">|         3 | 17:22:20.1 |      3.000 |      9.000 |      0.000 |</span>
+<span class="go">|         4 | 17:22:20.2 |      5.000 |      4.000 |      0.000 |</span>
+<span class="go">|         5 | 17:22:20.2 |      8.000 |      1.000 |      0.000 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">generator list_scan [&#39;11b6251c&#39;] (scan num: 5)</span>
+<span class="go">generator list_scan [&#39;b54466f7&#39;] (scan num: 5)</span>
 
 
 
-<span class="gh">Out[7]: </span><span class="go">(&#39;11b6251c-128e-4205-9ecd-106e78797e8a&#39;,)</span>
+<span class="gh">Out[7]: </span><span class="go">(&#39;b54466f7-4035-4468-be96-53eca5b27621&#39;,)</span>
 </pre></div>
 </div>
 <figure class="align-default">
@@ -1038,12 +1013,12 @@ use <a class="reference internal" href="generated/bluesky.plans.list_scan.html#b
 <h3>Scan Multiple Motors in a Grid<a class="headerlink" href="#scan-multiple-motors-in-a-grid" title="Link to this heading">#</a></h3>
 <p>In this case scan N motors through an N-dimensional rectangular grid. We’ll use
 the same simulated hardware as in the previous section:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">det4</span><span class="p">,</span> <span class="n">motor1</span><span class="p">,</span> <span class="n">motor2</span><span class="p">,</span> <span class="n">motor3</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">det4</span><span class="p">,</span> <span class="n">motor1</span><span class="p">,</span> <span class="n">motor2</span><span class="p">,</span> <span class="n">motor3</span>
 <span class="n">dets</span> <span class="o">=</span> <span class="p">[</span><span class="n">det4</span><span class="p">]</span>   <span class="c1"># just one in this case, but it could be more than one</span>
 </pre></div>
 </div>
 <p>We’ll use a new plan, named <a class="reference internal" href="generated/bluesky.plans.grid_scan.html#bluesky.plans.grid_scan" title="bluesky.plans.grid_scan"><code class="xref py py-func docutils literal notranslate"><span class="pre">grid_scan()</span></code></a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">grid_scan</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">grid_scan</span>
 </pre></div>
 </div>
 <p>Let’s start with a 3x5x5 grid.</p>
@@ -1076,33 +1051,33 @@ axis.</p>
 <span class="gp">   ...: </span>
 
 
-<span class="go">Transient Scan ID: 6     Time: 2024-08-26 21:59:26</span>
-<span class="go">Persistent Unique Scan ID: &#39;3febce3a-7013-4f82-bd9c-695e8d26fe5b&#39;</span>
+<span class="go">Transient Scan ID: 6     Time: 2025-01-31 17:22:22</span>
+<span class="go">Persistent Unique Scan ID: &#39;0c838679-db65-468c-8223-aab334444257&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |     motor1 |     motor2 |       det4 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:59:26.2 |     -1.500 |     -0.100 |      0.323 |</span>
-<span class="go">|         2 | 21:59:26.3 |     -1.500 |     -0.050 |      0.324 |</span>
-<span class="go">|         3 | 21:59:26.5 |     -1.500 |      0.000 |      0.325 |</span>
-<span class="go">|         4 | 21:59:26.6 |     -1.500 |      0.050 |      0.324 |</span>
-<span class="go">|         5 | 21:59:26.7 |     -1.500 |      0.100 |      0.323 |</span>
-<span class="go">|         6 | 21:59:26.8 |      0.000 |     -0.100 |      0.995 |</span>
-<span class="go">|         7 | 21:59:26.9 |      0.000 |     -0.050 |      0.999 |</span>
-<span class="go">|         8 | 21:59:27.0 |      0.000 |      0.000 |      1.000 |</span>
-<span class="go">|         9 | 21:59:27.1 |      0.000 |      0.050 |      0.999 |</span>
-<span class="go">|        10 | 21:59:27.2 |      0.000 |      0.100 |      0.995 |</span>
-<span class="go">|        11 | 21:59:27.3 |      1.500 |     -0.100 |      0.323 |</span>
-<span class="go">|        12 | 21:59:27.4 |      1.500 |     -0.050 |      0.324 |</span>
-<span class="go">|        13 | 21:59:27.5 |      1.500 |      0.000 |      0.325 |</span>
-<span class="go">|        14 | 21:59:27.6 |      1.500 |      0.050 |      0.324 |</span>
-<span class="go">|        15 | 21:59:27.7 |      1.500 |      0.100 |      0.323 |</span>
+<span class="go">|         1 | 17:22:22.6 |     -1.500 |     -0.100 |      0.323 |</span>
+<span class="go">|         2 | 17:22:22.7 |     -1.500 |     -0.050 |      0.324 |</span>
+<span class="go">|         3 | 17:22:22.8 |     -1.500 |      0.000 |      0.325 |</span>
+<span class="go">|         4 | 17:22:22.9 |     -1.500 |      0.050 |      0.324 |</span>
+<span class="go">|         5 | 17:22:23.0 |     -1.500 |      0.100 |      0.323 |</span>
+<span class="go">|         6 | 17:22:23.1 |      0.000 |     -0.100 |      0.995 |</span>
+<span class="go">|         7 | 17:22:23.2 |      0.000 |     -0.050 |      0.999 |</span>
+<span class="go">|         8 | 17:22:23.3 |      0.000 |      0.000 |      1.000 |</span>
+<span class="go">|         9 | 17:22:23.4 |      0.000 |      0.050 |      0.999 |</span>
+<span class="go">|        10 | 17:22:23.5 |      0.000 |      0.100 |      0.995 |</span>
+<span class="go">|        11 | 17:22:23.6 |      1.500 |     -0.100 |      0.323 |</span>
+<span class="go">|        12 | 17:22:23.7 |      1.500 |     -0.050 |      0.324 |</span>
+<span class="go">|        13 | 17:22:23.8 |      1.500 |      0.000 |      0.325 |</span>
+<span class="go">|        14 | 17:22:23.9 |      1.500 |      0.050 |      0.324 |</span>
+<span class="go">|        15 | 17:22:24.0 |      1.500 |      0.100 |      0.323 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">generator grid_scan [&#39;3febce3a&#39;] (scan num: 6)</span>
+<span class="go">generator grid_scan [&#39;0c838679&#39;] (scan num: 6)</span>
 
 
 
-<span class="gh">Out[8]: </span><span class="go">(&#39;3febce3a-7013-4f82-bd9c-695e8d26fe5b&#39;,)</span>
+<span class="gh">Out[8]: </span><span class="go">(&#39;0c838679-db65-468c-8223-aab334444257&#39;,)</span>
 </pre></div>
 </div>
 <figure class="align-default">
@@ -1111,7 +1086,7 @@ axis.</p>
 <p>To move motors along arbitrary trajectories instead of equally-spaced points,
 use <a class="reference internal" href="generated/bluesky.plans.list_grid_scan.html#bluesky.plans.list_grid_scan" title="bluesky.plans.list_grid_scan"><code class="xref py py-func docutils literal notranslate"><span class="pre">list_grid_scan()</span></code></a> and
 <a class="reference internal" href="generated/bluesky.plans.rel_list_grid_scan.html#bluesky.plans.rel_list_grid_scan" title="bluesky.plans.rel_list_grid_scan"><code class="xref py py-func docutils literal notranslate"><span class="pre">rel_list_grid_scan()</span></code></a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">list_grid_scan</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">list_grid_scan</span>
 
 <span class="n">RE</span><span class="p">(</span><span class="n">list_grid_scan</span><span class="p">(</span><span class="n">dets</span><span class="p">,</span>
                   <span class="n">motor1</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
@@ -1125,33 +1100,33 @@ use <a class="reference internal" href="generated/bluesky.plans.list_grid_scan.h
 <span class="gp">   ...: </span>
 
 
-<span class="go">Transient Scan ID: 7     Time: 2024-08-26 21:59:30</span>
-<span class="go">Persistent Unique Scan ID: &#39;022177e6-bf32-4c29-9e44-1547c3667763&#39;</span>
+<span class="go">Transient Scan ID: 7     Time: 2025-01-31 17:22:26</span>
+<span class="go">Persistent Unique Scan ID: &#39;dcf4a4ad-ae81-4e18-8316-0e31784eaf7a&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |     motor1 |     motor2 |       det4 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:59:30.4 |      1.000 |     25.000 |      0.000 |</span>
-<span class="go">|         2 | 21:59:30.6 |      1.000 |     16.000 |      0.000 |</span>
-<span class="go">|         3 | 21:59:30.7 |      1.000 |      9.000 |      0.000 |</span>
-<span class="go">|         4 | 21:59:30.7 |      1.000 |     25.000 |      0.000 |</span>
-<span class="go">|         5 | 21:59:30.8 |      1.000 |     16.000 |      0.000 |</span>
-<span class="go">|         6 | 21:59:30.9 |      1.000 |      9.000 |      0.000 |</span>
-<span class="go">|         7 | 21:59:31.0 |      2.000 |     25.000 |      0.000 |</span>
-<span class="go">|         8 | 21:59:31.1 |      2.000 |     16.000 |      0.000 |</span>
-<span class="go">|         9 | 21:59:31.1 |      2.000 |      9.000 |      0.000 |</span>
-<span class="go">|        10 | 21:59:31.2 |      3.000 |     25.000 |      0.000 |</span>
-<span class="go">|        11 | 21:59:31.3 |      3.000 |     16.000 |      0.000 |</span>
-<span class="go">|        12 | 21:59:31.4 |      3.000 |      9.000 |      0.000 |</span>
-<span class="go">|        13 | 21:59:31.5 |      5.000 |     25.000 |      0.000 |</span>
-<span class="go">|        14 | 21:59:31.5 |      5.000 |     16.000 |      0.000 |</span>
-<span class="go">|        15 | 21:59:31.6 |      5.000 |      9.000 |      0.000 |</span>
+<span class="go">|         1 | 17:22:26.3 |      1.000 |     25.000 |      0.000 |</span>
+<span class="go">|         2 | 17:22:26.4 |      1.000 |     16.000 |      0.000 |</span>
+<span class="go">|         3 | 17:22:26.5 |      1.000 |      9.000 |      0.000 |</span>
+<span class="go">|         4 | 17:22:26.6 |      1.000 |     25.000 |      0.000 |</span>
+<span class="go">|         5 | 17:22:26.6 |      1.000 |     16.000 |      0.000 |</span>
+<span class="go">|         6 | 17:22:26.7 |      1.000 |      9.000 |      0.000 |</span>
+<span class="go">|         7 | 17:22:26.8 |      2.000 |     25.000 |      0.000 |</span>
+<span class="go">|         8 | 17:22:26.9 |      2.000 |     16.000 |      0.000 |</span>
+<span class="go">|         9 | 17:22:26.9 |      2.000 |      9.000 |      0.000 |</span>
+<span class="go">|        10 | 17:22:27.0 |      3.000 |     25.000 |      0.000 |</span>
+<span class="go">|        11 | 17:22:27.1 |      3.000 |     16.000 |      0.000 |</span>
+<span class="go">|        12 | 17:22:27.2 |      3.000 |      9.000 |      0.000 |</span>
+<span class="go">|        13 | 17:22:27.2 |      5.000 |     25.000 |      0.000 |</span>
+<span class="go">|        14 | 17:22:27.3 |      5.000 |     16.000 |      0.000 |</span>
+<span class="go">|        15 | 17:22:27.4 |      5.000 |      9.000 |      0.000 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">generator list_grid_scan [&#39;022177e6&#39;] (scan num: 7)</span>
+<span class="go">generator list_grid_scan [&#39;dcf4a4ad&#39;] (scan num: 7)</span>
 
 
 
-<span class="gh">Out[9]: </span><span class="go">(&#39;022177e6-bf32-4c29-9e44-1547c3667763&#39;,)</span>
+<span class="gh">Out[9]: </span><span class="go">(&#39;dcf4a4ad-ae81-4e18-8316-0e31784eaf7a&#39;,)</span>
 </pre></div>
 </div>
 <figure class="align-default">
@@ -1180,24 +1155,24 @@ RunEngine.</p>
 </div>
 <p>Very briefly, you can access saved data by referring to a dataset (a “run”) by
 its unique ID, which is returned by the RunEngine at collection time.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">count</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">count</span>
 
-<span class="gp">In [11]: </span><span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">det</span>
+<span class="gp">In [11]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">det</span>
 
 <span class="gp">In [12]: </span><span class="n">uid</span><span class="p">,</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span><span class="n">count</span><span class="p">([</span><span class="n">det</span><span class="p">],</span> <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 8     Time: 2024-08-26 21:59:33</span>
-<span class="go">Persistent Unique Scan ID: &#39;90162b8e-ea17-4a84-9667-64b02eeaad93&#39;</span>
+<span class="go">Transient Scan ID: 8     Time: 2025-01-31 17:22:29</span>
+<span class="go">Persistent Unique Scan ID: &#39;fc63846a-b7b3-4f18-bce1-85376e18dfa8&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+</span>
 <span class="go">|   seq_num |       time |        det |</span>
 <span class="go">+-----------+------------+------------+</span>
-<span class="go">|         1 | 21:59:33.8 |      0.607 |</span>
-<span class="go">|         2 | 21:59:33.8 |      0.607 |</span>
-<span class="go">|         3 | 21:59:33.9 |      0.607 |</span>
+<span class="go">|         1 | 17:22:29.2 |      0.607 |</span>
+<span class="go">|         2 | 17:22:29.3 |      0.607 |</span>
+<span class="go">|         3 | 17:22:29.4 |      0.607 |</span>
 <span class="go">+-----------+------------+------------+</span>
-<span class="go">generator count [&#39;90162b8e&#39;] (scan num: 8)</span>
+<span class="go">generator count [&#39;fc63846a&#39;] (scan num: 8)</span>
 
 
 
@@ -1223,9 +1198,9 @@ which in turn causes <code class="docutils literal notranslate"><span class="pre
 <p>Most of the useful metadata is in this dictionary:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [15]: </span><span class="n">header</span><span class="o">.</span><span class="n">start</span>
 <span class="gh">Out[15]: </span>
-<span class="go">{&#39;uid&#39;: &#39;90162b8e-ea17-4a84-9667-64b02eeaad93&#39;,</span>
-<span class="go"> &#39;time&#39;: 1724709573.783354,</span>
-<span class="go"> &#39;versions&#39;: {&#39;ophyd&#39;: &#39;1.9.0&#39;, &#39;bluesky&#39;: &#39;0.1.dev5061+gf25df0b&#39;},</span>
+<span class="go">{&#39;uid&#39;: &#39;fc63846a-b7b3-4f18-bce1-85376e18dfa8&#39;,</span>
+<span class="go"> &#39;time&#39;: 1738344149.2684824,</span>
+<span class="go"> &#39;versions&#39;: {&#39;ophyd&#39;: &#39;1.10.0&#39;, &#39;bluesky&#39;: &#39;0.1.dev5179+g3956788&#39;},</span>
 <span class="go"> &#39;scan_id&#39;: 8,</span>
 <span class="go"> &#39;plan_type&#39;: &#39;generator&#39;,</span>
 <span class="go"> &#39;plan_name&#39;: &#39;count&#39;,</span>
@@ -1243,9 +1218,9 @@ which in turn causes <code class="docutils literal notranslate"><span class="pre
 <span class="gh">Out[16]: </span>
 <span class="go">                                 time       det</span>
 <span class="go">seq_num                                        </span>
-<span class="go">1       2024-08-26 21:59:33.803589821  0.606531</span>
-<span class="go">2       2024-08-26 21:59:33.881392717  0.606531</span>
-<span class="go">3       2024-08-26 21:59:33.947503090  0.606531</span>
+<span class="go">1       2025-01-31 17:22:29.282585859  0.606531</span>
+<span class="go">2       2025-01-31 17:22:29.352892160  0.606531</span>
+<span class="go">3       2025-01-31 17:22:29.405657291  0.606531</span>
 </pre></div>
 </div>
 <p>From here we refer to the
@@ -1257,10 +1232,10 @@ which in turn causes <code class="docutils literal notranslate"><span class="pre
 <h3>Save Some Typing with ‘Partial’<a class="headerlink" href="#save-some-typing-with-partial" title="Link to this heading">#</a></h3>
 <p>Suppose we nearly always use the same detector(s) and we tire of typing out
 <code class="docutils literal notranslate"><span class="pre">count([det])</span></code>. We can write a custom variant of <a class="reference internal" href="generated/bluesky.plans.count.html#bluesky.plans.count" title="bluesky.plans.count"><code class="xref py py-func docutils literal notranslate"><span class="pre">count()</span></code></a>
-using a built-in function provided by Python itself, <a class="reference external" href="https://docs.python.org/3/library/functools.html#functools.partial" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">count</span>
-<span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">det</span>
+using a built-in function provided by Python itself, <a class="reference external" href="https://docs.python.org/3/library/functools.html#functools.partial" title="(in Python v3.13)"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">count</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">det</span>
 
 <span class="n">my_count</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="p">[</span><span class="n">det</span><span class="p">])</span>
 <span class="n">RE</span><span class="p">(</span><span class="n">my_count</span><span class="p">())</span>  <span class="c1"># equivalent to RE(count([det]))</span>
@@ -1275,9 +1250,9 @@ using a built-in function provided by Python itself, <a class="reference externa
 <p>A custom plan can dispatch out to other plans using the Python syntax
 <code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span></code>. (See <a class="reference internal" href="appendix.html#yield-from-primer"><span class="std std-ref">appendix</span></a> if you want to know
 why.) Examples:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">scan</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">scan</span>
 
-<span class="k">def</span> <span class="nf">coarse_and_fine</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">motor</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">coarse_and_fine</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">motor</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">):</span>
     <span class="s2">&quot;Scan from &#39;start&#39; to &#39;stop&#39; in 10 steps and then again in 100 steps.&quot;</span>
     <span class="k">yield from</span> <span class="n">scan</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">motor</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">scan</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">motor</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
@@ -1291,8 +1266,8 @@ why.) Examples:</p>
 or combined to build custom plans.</p>
 <p>The <a class="reference internal" href="generated/bluesky.plan_stubs.mv.html#bluesky.plan_stubs.mv" title="bluesky.plan_stubs.mv"><code class="xref py py-func docutils literal notranslate"><span class="pre">mv()</span></code></a> plan moves one or more devices and waits for
 them all to arrive.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.plan_stubs</span> <span class="kn">import</span> <span class="n">mv</span>
-<span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">motor1</span><span class="p">,</span> <span class="n">motor2</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="kn">import</span> <span class="n">mv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">motor1</span><span class="p">,</span> <span class="n">motor2</span>
 
 <span class="c1"># Move motor1 to 1 and motor2 to 10, simultaneously. Wait for both to arrive.</span>
 <span class="n">RE</span><span class="p">(</span><span class="n">mv</span><span class="p">(</span><span class="n">motor1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">motor2</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
@@ -1300,7 +1275,7 @@ them all to arrive.</p>
 </div>
 <p>We can combine <a class="reference internal" href="generated/bluesky.plan_stubs.mv.html#bluesky.plan_stubs.mv" title="bluesky.plan_stubs.mv"><code class="xref py py-func docutils literal notranslate"><span class="pre">mv()</span></code></a> and <a class="reference internal" href="generated/bluesky.plans.count.html#bluesky.plans.count" title="bluesky.plans.count"><code class="xref py py-func docutils literal notranslate"><span class="pre">count()</span></code></a>
 into one plan like so:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">move_then_count</span><span class="p">():</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">move_then_count</span><span class="p">():</span>
     <span class="s2">&quot;Move motor1 and motor2 into position; then count det.&quot;</span>
     <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">motor1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">motor2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">count</span><span class="p">(</span><span class="n">dets</span><span class="p">)</span>
@@ -1312,7 +1287,7 @@ into one plan like so:</p>
 nothing at all! (The plans inside it will be <em>defined</em> but never executed.)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># WRONG EXAMPLE!</span>
 
-<span class="k">def</span> <span class="nf">oops</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">oops</span><span class="p">():</span>
     <span class="s2">&quot;Forgot &#39;yield from&#39;!&quot;</span>
     <span class="n">mv</span><span class="p">(</span><span class="n">motor1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">motor2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="n">count</span><span class="p">(</span><span class="n">dets</span><span class="p">)</span>
@@ -1326,8 +1301,8 @@ complete list of <a class="reference internal" href="plans.html#stub-plans"><spa
 <p><strong>Never put ``RE(…)`` inside a loop or a function. You should always call
 it directly — typed by the user at the terminal — and only once.</strong></p>
 <p>You might be tempted to write a script like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">scan</span>
-<span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">motor</span><span class="p">,</span> <span class="n">det</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">scan</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">motor</span><span class="p">,</span> <span class="n">det</span>
 
 <span class="c1"># Don&#39;t do this!</span>
 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
@@ -1337,17 +1312,17 @@ it directly — typed by the user at the terminal — and only once.</strong></p
 </div>
 <p>Or a function like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Don&#39;t do this!</span>
-<span class="k">def</span> <span class="nf">bad_function</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bad_function</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">&#39;steps&#39;</span><span class="p">)</span>
         <span class="n">RE</span><span class="p">(</span><span class="n">scan</span><span class="p">([</span><span class="n">det</span><span class="p">],</span> <span class="n">motor</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">j</span><span class="p">)))</span>
 </pre></div>
 </div>
 <p>But, instead, you should do this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">scan</span>
-<span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">motor</span><span class="p">,</span> <span class="n">det</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">scan</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">motor</span><span class="p">,</span> <span class="n">det</span>
 
-<span class="k">def</span> <span class="nf">good_plan</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">good_plan</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">&#39;steps&#39;</span><span class="p">)</span>
         <span class="k">yield from</span> <span class="n">scan</span><span class="p">([</span><span class="n">det</span><span class="p">],</span> <span class="n">motor</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
@@ -1391,7 +1366,7 @@ to do this configuration, and you can skip the next subsection just below
 </div>
 <p>Before we begin, we have to do a little more RunEngine configuration, like what
 we did in the <a class="reference internal" href="#tutorial-run-engine-setup"><span class="std std-ref">The RunEngine</span></a> section with <code class="docutils literal notranslate"><span class="pre">RE.subscribe</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.preprocessors</span> <span class="kn">import</span> <span class="n">SupplementalData</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.preprocessors</span><span class="w"> </span><span class="kn">import</span> <span class="n">SupplementalData</span>
 
 <span class="n">sd</span> <span class="o">=</span> <span class="n">SupplementalData</span><span class="p">()</span>
 <span class="n">RE</span><span class="o">.</span><span class="n">preprocessors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span>
@@ -1411,7 +1386,7 @@ content of <code class="docutils literal notranslate"><span class="pre">sd.basel
 <p>Suppose that we want to take baseline readings from three detectors and two
 motors. We’ll import a handful of simulated devices for this purpose, put them
 into a list, and assign <code class="docutils literal notranslate"><span class="pre">sd.baseline</span></code>.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [19]: </span><span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">det1</span><span class="p">,</span> <span class="n">det2</span><span class="p">,</span> <span class="n">det3</span><span class="p">,</span> <span class="n">motor1</span><span class="p">,</span> <span class="n">motor2</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [19]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">det1</span><span class="p">,</span> <span class="n">det2</span><span class="p">,</span> <span class="n">det3</span><span class="p">,</span> <span class="n">motor1</span><span class="p">,</span> <span class="n">motor2</span>
 
 <span class="gp">In [20]: </span><span class="n">sd</span><span class="o">.</span><span class="n">baseline</span> <span class="o">=</span> <span class="p">[</span><span class="n">det1</span><span class="p">,</span> <span class="n">det2</span><span class="p">,</span> <span class="n">det3</span><span class="p">,</span> <span class="n">motor1</span><span class="p">,</span> <span class="n">motor2</span><span class="p">]</span>
 </pre></div>
@@ -1425,15 +1400,15 @@ just going to be <em>reading</em> them, and both detectors and motors can be rea
 <p>Now we can just do a scan with the detector and motor of primary interest. The
 RunEngine will automatically take baseline readings before and after each run.
 Demo:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [21]: </span><span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">det</span><span class="p">,</span> <span class="n">motor</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [21]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">det</span><span class="p">,</span> <span class="n">motor</span>
 
-<span class="gp">In [22]: </span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">scan</span>
+<span class="gp">In [22]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">scan</span>
 
 <span class="gp">In [23]: </span><span class="n">RE</span><span class="p">(</span><span class="n">scan</span><span class="p">([</span><span class="n">det</span><span class="p">],</span> <span class="n">motor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 9     Time: 2024-08-26 21:59:34</span>
-<span class="go">Persistent Unique Scan ID: &#39;d2d1acc2-c5e8-4933-a997-2c2364fb4912&#39;</span>
+<span class="go">Transient Scan ID: 9     Time: 2025-01-31 17:22:29</span>
+<span class="go">Persistent Unique Scan ID: &#39;7c9af29c-afc4-4b55-a167-177a40fb2981&#39;</span>
 <span class="go">New stream: &#39;baseline&#39;</span>
 <span class="go">Start-of-run baseline readings:</span>
 <span class="go">+--------------------------------+--------------------------------+</span>
@@ -1447,13 +1422,13 @@ Demo:</p>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |      motor |        det |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:59:34.2 |     -1.000 |      0.607 |</span>
-<span class="go">|         2 | 21:59:34.3 |     -0.500 |      0.882 |</span>
-<span class="go">|         3 | 21:59:34.4 |      0.000 |      1.000 |</span>
-<span class="go">|         4 | 21:59:34.4 |      0.500 |      0.882 |</span>
-<span class="go">|         5 | 21:59:34.5 |      1.000 |      0.607 |</span>
+<span class="go">|         1 | 17:22:29.6 |     -1.000 |      0.607 |</span>
+<span class="go">|         2 | 17:22:29.7 |     -0.500 |      0.882 |</span>
+<span class="go">|         3 | 17:22:29.8 |      0.000 |      1.000 |</span>
+<span class="go">|         4 | 17:22:29.8 |      0.500 |      0.882 |</span>
+<span class="go">|         5 | 17:22:29.9 |      1.000 |      0.607 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator scan [&#39;d2d1acc2&#39;] (scan num: 9)</span>
+<span class="go">generator scan [&#39;7c9af29c&#39;] (scan num: 9)</span>
 <span class="go">End-of-run baseline readings:</span>
 <span class="go">+--------------------------------+--------------------------------+</span>
 <span class="go">|                           det1 | 9.643749239819588e-22          |</span>
@@ -1465,7 +1440,7 @@ Demo:</p>
 
 
 
-<span class="gh">Out[23]: </span><span class="go">(&#39;d2d1acc2-c5e8-4933-a997-2c2364fb4912&#39;,)</span>
+<span class="gh">Out[23]: </span><span class="go">(&#39;7c9af29c-afc4-4b55-a167-177a40fb2981&#39;,)</span>
 </pre></div>
 </div>
 <p>We can clear or update the list of baseline detectors at any time.</p>
@@ -1487,11 +1462,11 @@ baseline data is missing!</p>
 <span class="gh">Out[26]: </span>
 <span class="go">                                 time       det  motor  motor_setpoint</span>
 <span class="go">seq_num                                                               </span>
-<span class="go">1       2024-08-26 21:59:34.248882532  0.606531   -1.0            -1.0</span>
-<span class="go">2       2024-08-26 21:59:34.336508512  0.882497   -0.5            -0.5</span>
-<span class="go">3       2024-08-26 21:59:34.405332804  1.000000    0.0             0.0</span>
-<span class="go">4       2024-08-26 21:59:34.454355001  0.882497    0.5             0.5</span>
-<span class="go">5       2024-08-26 21:59:34.508749008  0.606531    1.0             1.0</span>
+<span class="go">1       2025-01-31 17:22:29.692219734  0.606531   -1.0            -1.0</span>
+<span class="go">2       2025-01-31 17:22:29.757312536  0.882497   -0.5            -0.5</span>
+<span class="go">3       2025-01-31 17:22:29.807722092  1.000000    0.0             0.0</span>
+<span class="go">4       2025-01-31 17:22:29.855221987  0.882497    0.5             0.5</span>
+<span class="go">5       2025-01-31 17:22:29.906935215  0.606531    1.0             1.0</span>
 </pre></div>
 </div>
 <p>Looking again at the output when we executed this scan, notice these lines:</p>
@@ -1505,20 +1480,20 @@ New stream: &#39;primary&#39;
 <span class="gh">Out[27]: </span>
 <span class="go">                                 time       det  motor  motor_setpoint</span>
 <span class="go">seq_num                                                               </span>
-<span class="go">1       2024-08-26 21:59:34.248882532  0.606531   -1.0            -1.0</span>
-<span class="go">2       2024-08-26 21:59:34.336508512  0.882497   -0.5            -0.5</span>
-<span class="go">3       2024-08-26 21:59:34.405332804  1.000000    0.0             0.0</span>
-<span class="go">4       2024-08-26 21:59:34.454355001  0.882497    0.5             0.5</span>
-<span class="go">5       2024-08-26 21:59:34.508749008  0.606531    1.0             1.0</span>
+<span class="go">1       2025-01-31 17:22:29.692219734  0.606531   -1.0            -1.0</span>
+<span class="go">2       2025-01-31 17:22:29.757312536  0.882497   -0.5            -0.5</span>
+<span class="go">3       2025-01-31 17:22:29.807722092  1.000000    0.0             0.0</span>
+<span class="go">4       2025-01-31 17:22:29.855221987  0.882497    0.5             0.5</span>
+<span class="go">5       2025-01-31 17:22:29.906935215  0.606531    1.0             1.0</span>
 </pre></div>
 </div>
 <p>We can access other streams by name.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [28]: </span><span class="n">header</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;baseline&#39;</span><span class="p">)</span>
 <span class="gh">Out[28]: </span>
-<span class="go">                                 time  motor1  ...  motor2_setpoint      det3</span>
-<span class="go">seq_num                                        ...                           </span>
-<span class="go">1       2024-08-26 21:59:34.231454134     5.0  ...                9  1.213061</span>
-<span class="go">2       2024-08-26 21:59:34.555482149     5.0  ...                9  1.213061</span>
+<span class="go">                                 time  motor1  ...          det1      det3</span>
+<span class="go">seq_num                                        ...                        </span>
+<span class="go">1       2025-01-31 17:22:29.677745342     5.0  ...  9.643749e-22  1.213061</span>
+<span class="go">2       2025-01-31 17:22:29.952495337     5.0  ...  9.643749e-22  1.213061</span>
 
 <span class="go">[2 rows x 8 columns]</span>
 </pre></div>
@@ -1545,8 +1520,8 @@ plans, with minimal effort by the user. Of course, experiments on systems
 that evolve with time can’t be arbitrarily paused and resumed. It’s up to the
 user to know that and use this feature only when applicable.</p>
 <p>Take this example, a step scan over ten points.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">det</span><span class="p">,</span> <span class="n">motor</span>
-<span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">scan</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">det</span><span class="p">,</span> <span class="n">motor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">scan</span>
 
 <span class="n">motor</span><span class="o">.</span><span class="n">delay</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># simulate slow motor movement</span>
 <span class="n">RE</span><span class="p">(</span><span class="n">scan</span><span class="p">([</span><span class="n">det</span><span class="p">],</span> <span class="n">motor</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
@@ -1719,8 +1694,8 @@ is only necessary when debugging or doing unusually deep customization, but
 it’s helpful to see them at least once before moving on to more practical
 tools.</p>
 <p>Try printing out every message in a couple simple plans:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">count</span>
-<span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">det</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">count</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">det</span>
 
 <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">count</span><span class="p">([]):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
@@ -1732,11 +1707,11 @@ tools.</p>
 <p>See the <a class="reference internal" href="msg.html"><span class="doc">Message Protocol</span></a> section for more.</p>
 <p>Bluesky includes some tools for producing more useful, human-readable summaries
 to answer the question, “What will this plan do?”</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [31]: </span><span class="kn">from</span> <span class="nn">bluesky.simulators</span> <span class="kn">import</span> <span class="n">summarize_plan</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [31]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.simulators</span><span class="w"> </span><span class="kn">import</span> <span class="n">summarize_plan</span>
 
-<span class="gp">In [32]: </span><span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">count</span><span class="p">,</span> <span class="n">rel_scan</span>
+<span class="gp">In [32]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">count</span><span class="p">,</span> <span class="n">rel_scan</span>
 
-<span class="gp">In [33]: </span><span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">det</span><span class="p">,</span> <span class="n">motor</span>
+<span class="gp">In [33]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">det</span><span class="p">,</span> <span class="n">motor</span>
 
 <span class="go"># Count a detector 3 times.</span>
 <span class="gp">In [34]: </span><span class="n">summarize_plan</span><span class="p">(</span><span class="n">count</span><span class="p">([</span><span class="n">det</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
@@ -1806,7 +1781,7 @@ tutorial is all based on pure-Python constructs unconnected from hardware or
 any specific hardware control protocol.</p>
 <p>To get a flavor for what it looks like to configure hardware in ophyd,
 connecting to an EPICS motor looks like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsMotor</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotor</span>
 
 <span class="n">nano_top_x</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="s1">&#39;XF:31ID-ES{Dif:Nano-Ax:TopX}Mtr&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;nano_top_x&#39;</span><span class="p">)</span>
 </pre></div>
@@ -1872,7 +1847,7 @@ home_reverse         EpicsSignal         (&#39;nano_top_x_home_reverse&#39;)
 mix and match the “stubs” and/or “pre-assembled” plans to build custom plans.</p>
 <p>There are many of plan stubs, so it’s convenient to import the whole module and
 work with that.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bluesky.plan_stubs</span> <span class="k">as</span> <span class="nn">bps</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
 </pre></div>
 </div>
 <section id="move-in-parallel">
@@ -1883,7 +1858,7 @@ consider whether your use case could be addressed with one of the built-in
 <p>We previously introduced the <a class="reference internal" href="generated/bluesky.plan_stubs.mv.html#bluesky.plan_stubs.mv" title="bluesky.plan_stubs.mv"><code class="xref py py-func docutils literal notranslate"><span class="pre">mv()</span></code></a> plan that moves one
 or more devices and waits for them all to arrive. There is also
 <code class="xref py py-func docutils literal notranslate"><span class="pre">mvr()</span></code> for moving <em>relative</em> to the current position.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">motor1</span><span class="p">,</span> <span class="n">motor2</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">motor1</span><span class="p">,</span> <span class="n">motor2</span>
 
 <span class="c1"># Move motor1 to 1 and motor2 10 units in the positive direction relative</span>
 <span class="c1"># to their current positions. Wait for both to arrive.</span>
@@ -1898,7 +1873,7 @@ For these, we employ <a class="reference internal" href="generated/bluesky.plan_
 motors in motion at once, including multiple fast motors and one slow motor. We
 want to wait for the fast motors to arrive, print a message, then wait for the
 slow motor to arrive, and print a second message.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">staggered_wait</span><span class="p">(</span><span class="n">fast_motors</span><span class="p">,</span> <span class="n">slow_motor</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">staggered_wait</span><span class="p">(</span><span class="n">fast_motors</span><span class="p">,</span> <span class="n">slow_motor</span><span class="p">):</span>
     <span class="c1"># Start all the motors, fast and slow, moving at once.</span>
     <span class="c1"># Put all the fast_motors in one group...</span>
     <span class="k">for</span> <span class="n">motor</span> <span class="ow">in</span> <span class="n">fast_motors</span><span class="p">:</span>
@@ -1930,7 +1905,7 @@ configured like <code class="docutils literal notranslate"><span class="pre">mot
 </div>
 <p>For timed delays, bluesky has a special plan, which allows the RunEngine to
 continue its business during the sleep.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sleepy_plan</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span> <span class="n">positions</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sleepy_plan</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span> <span class="n">positions</span><span class="p">):</span>
     <span class="s2">&quot;Step a motor through a list of positions with 1-second delays between steps.&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">:</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
@@ -1949,9 +1924,9 @@ calls in your plan, such as <code class="docutils literal notranslate"><span cla
 <p>Any plan that generates data must include instructions for grouping readings
 into <em>Events</em> (i.e. rows in a table) and grouping those Events into <em>Runs</em>
 (datasets that are given a “scan ID”). This is best explained by example.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bluesky.plan_stubs</span> <span class="k">as</span> <span class="nn">bps</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
 
-<span class="k">def</span> <span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">):</span>
     <span class="c1"># Declare the beginning of a new run.</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">open_run</span><span class="p">()</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="o">*</span><span class="n">detectors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;primary&#39;</span><span class="p">)</span>
@@ -1969,19 +1944,19 @@ into <em>Events</em> (i.e. rows in a table) and grouping those Events into <em>R
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [36]: </span><span class="n">RE</span><span class="p">(</span><span class="n">one_run_one_event</span><span class="p">([</span><span class="n">det1</span><span class="p">,</span> <span class="n">det2</span><span class="p">]))</span>
 
 
-<span class="go">Transient Scan ID: 10     Time: 2024-08-26 21:59:34</span>
-<span class="go">Persistent Unique Scan ID: &#39;510468d7-f9c1-4ff0-9160-267a7c5a59f9&#39;</span>
+<span class="go">Transient Scan ID: 10     Time: 2025-01-31 17:22:30</span>
+<span class="go">Persistent Unique Scan ID: &#39;27763320-0546-4c0b-a9bf-e8276aeed89b&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |       det2 |       det1 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:59:34.8 |      0.001 |      0.000 |</span>
+<span class="go">|         1 | 17:22:30.2 |      0.001 |      0.000 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator one_run_one_event [&#39;510468d7&#39;] (scan num: 10)</span>
+<span class="go">generator one_run_one_event [&#39;27763320&#39;] (scan num: 10)</span>
 
 
 
-<span class="gh">Out[36]: </span><span class="go">(&#39;510468d7-f9c1-4ff0-9160-267a7c5a59f9&#39;,)</span>
+<span class="gh">Out[36]: </span><span class="go">(&#39;27763320-0546-4c0b-a9bf-e8276aeed89b&#39;,)</span>
 </pre></div>
 </div>
 <p>We observe:</p>
@@ -1992,7 +1967,7 @@ into <em>Events</em> (i.e. rows in a table) and grouping those Events into <em>R
 </ul>
 <p>Here’s the same plan again, with <a class="reference internal" href="generated/bluesky.plan_stubs.trigger_and_read.html#bluesky.plan_stubs.trigger_and_read" title="bluesky.plan_stubs.trigger_and_read"><code class="xref py py-func docutils literal notranslate"><span class="pre">trigger_and_read()</span></code></a>
 moved inside a for loop.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">one_run_multi_events</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">one_run_multi_events</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">open_run</span><span class="p">()</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="o">*</span><span class="n">detectors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;primary&#39;</span><span class="p">)</span>
 
@@ -2006,21 +1981,21 @@ moved inside a for loop.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [37]: </span><span class="n">RE</span><span class="p">(</span><span class="n">one_run_multi_events</span><span class="p">([</span><span class="n">det1</span><span class="p">,</span> <span class="n">det2</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 11     Time: 2024-08-26 21:59:35</span>
-<span class="go">Persistent Unique Scan ID: &#39;39fef11b-5cc0-4ce2-a58b-dcbeb50e56ac&#39;</span>
+<span class="go">Transient Scan ID: 11     Time: 2025-01-31 17:22:30</span>
+<span class="go">Persistent Unique Scan ID: &#39;fcaafef7-83ad-44b7-a9ed-35f22670004b&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |       det2 |       det1 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:59:35.4 |      0.001 |      0.000 |</span>
-<span class="go">|         2 | 21:59:35.7 |      0.001 |      0.000 |</span>
-<span class="go">|         3 | 21:59:35.9 |      0.001 |      0.000 |</span>
+<span class="go">|         1 | 17:22:30.7 |      0.001 |      0.000 |</span>
+<span class="go">|         2 | 17:22:30.9 |      0.001 |      0.000 |</span>
+<span class="go">|         3 | 17:22:31.1 |      0.001 |      0.000 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator one_run_multi_events [&#39;39fef11b&#39;] (scan num: 11)</span>
+<span class="go">generator one_run_multi_events [&#39;fcaafef7&#39;] (scan num: 11)</span>
 
 
 
-<span class="gh">Out[37]: </span><span class="go">(&#39;39fef11b-5cc0-4ce2-a58b-dcbeb50e56ac&#39;,)</span>
+<span class="gh">Out[37]: </span><span class="go">(&#39;fcaafef7-83ad-44b7-a9ed-35f22670004b&#39;,)</span>
 </pre></div>
 </div>
 <p>We observe:</p>
@@ -2030,7 +2005,7 @@ moved inside a for loop.</p>
 <li><p>two columns (a column for each detector)</p></li>
 </ul>
 <p>Finally, add another loop re-using <code class="docutils literal notranslate"><span class="pre">one_run_multi_events</span></code> inside that loop.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">multi_runs_multi_events</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">num_runs</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">multi_runs_multi_events</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">num_runs</span><span class="p">):</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="o">*</span><span class="n">detectors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;primary&#39;</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_runs</span><span class="p">):</span>
@@ -2040,39 +2015,39 @@ moved inside a for loop.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [38]: </span><span class="n">RE</span><span class="p">(</span><span class="n">multi_runs_multi_events</span><span class="p">([</span><span class="n">det1</span><span class="p">,</span> <span class="n">det2</span><span class="p">],</span> <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">num_runs</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 12     Time: 2024-08-26 21:59:36</span>
-<span class="go">Persistent Unique Scan ID: &#39;8a599d12-ea0f-4b29-aee9-f142151907fe&#39;</span>
+<span class="go">Transient Scan ID: 12     Time: 2025-01-31 17:22:31</span>
+<span class="go">Persistent Unique Scan ID: &#39;a9a83f03-6a13-46fb-bd38-b1b4faac5d49&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |       det2 |       det1 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:59:36.5 |      0.001 |      0.000 |</span>
-<span class="go">|         2 | 21:59:36.7 |      0.001 |      0.000 |</span>
-<span class="go">|         3 | 21:59:36.9 |      0.001 |      0.000 |</span>
+<span class="go">|         1 | 17:22:31.5 |      0.001 |      0.000 |</span>
+<span class="go">|         2 | 17:22:31.7 |      0.001 |      0.000 |</span>
+<span class="go">|         3 | 17:22:31.9 |      0.001 |      0.000 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator multi_runs_multi_events [&#39;8a599d12&#39;] (scan num: 12)</span>
+<span class="go">generator multi_runs_multi_events [&#39;a9a83f03&#39;] (scan num: 12)</span>
 
 
 
 
 
-<span class="go">Transient Scan ID: 13     Time: 2024-08-26 21:59:37</span>
-<span class="go">Persistent Unique Scan ID: &#39;e0432eb0-ba26-4f1b-8a4c-629c29583e18&#39;</span>
+<span class="go">Transient Scan ID: 13     Time: 2025-01-31 17:22:32</span>
+<span class="go">Persistent Unique Scan ID: &#39;66a60ecd-72bd-429b-8bbc-8d9c721e5de6&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |       det2 |       det1 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:59:37.5 |      0.001 |      0.000 |</span>
-<span class="go">|         2 | 21:59:37.8 |      0.001 |      0.000 |</span>
-<span class="go">|         3 | 21:59:38.0 |      0.001 |      0.000 |</span>
+<span class="go">|         1 | 17:22:32.4 |      0.001 |      0.000 |</span>
+<span class="go">|         2 | 17:22:32.6 |      0.001 |      0.000 |</span>
+<span class="go">|         3 | 17:22:32.8 |      0.001 |      0.000 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator multi_runs_multi_events [&#39;e0432eb0&#39;] (scan num: 13)</span>
+<span class="go">generator multi_runs_multi_events [&#39;66a60ecd&#39;] (scan num: 13)</span>
 
 
 
 <span class="gh">Out[38]: </span>
-<span class="go">(&#39;8a599d12-ea0f-4b29-aee9-f142151907fe&#39;,</span>
-<span class="go"> &#39;e0432eb0-ba26-4f1b-8a4c-629c29583e18&#39;)</span>
+<span class="go">(&#39;a9a83f03-6a13-46fb-bd38-b1b4faac5d49&#39;,</span>
+<span class="go"> &#39;66a60ecd-72bd-429b-8bbc-8d9c721e5de6&#39;)</span>
 </pre></div>
 </div>
 <p>We observe:</p>
@@ -2097,9 +2072,9 @@ corresponding <code class="docutils literal notranslate"><span class="pre">unsta
 touch exactly once and unstage every device at the end. If a Device does not
 have a <code class="docutils literal notranslate"><span class="pre">stage()</span></code> method the RunEngine will just skip over it.</p>
 <p>Revising our simplest example above, <code class="docutils literal notranslate"><span class="pre">one_run_one_event</span></code>,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bluesky.plan_stubs</span> <span class="k">as</span> <span class="nn">bps</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
 
-<span class="k">def</span> <span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">):</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">open_run</span><span class="p">()</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="o">*</span><span class="n">detectors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;primary&#39;</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">trigger_and_read</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span>
@@ -2107,7 +2082,7 @@ have a <code class="docutils literal notranslate"><span class="pre">stage()</spa
 </pre></div>
 </div>
 <p>we incorporate staging like so:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">):</span>
 
     <span class="c1"># &#39;Stage&#39; every device.</span>
     <span class="k">for</span> <span class="n">det</span> <span class="ow">in</span> <span class="n">detectors</span><span class="p">:</span>
@@ -2127,12 +2102,12 @@ have a <code class="docutils literal notranslate"><span class="pre">stage()</spa
 additional complexity in exchange for brevity — and some assurance that we
 don’t forget to use these plans in matching pairs. To that end, this plan is
 equivalent:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bluesky.preprocessors</span> <span class="k">as</span> <span class="nn">bpp</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.preprocessors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bpp</span>
 
-<span class="k">def</span> <span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">):</span>
 
     <span class="nd">@bpp</span><span class="o">.</span><span class="n">stage_decorator</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">():</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">open_run</span><span class="p">()</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="o">*</span><span class="n">detectors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;primary&#39;</span><span class="p">)</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">trigger_and_read</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span>
@@ -2149,13 +2124,13 @@ can trim the verbosity down yet more by employing
 <a class="reference internal" href="generated/bluesky.preprocessors.run_decorator.html#bluesky.preprocessors.run_decorator" title="bluesky.preprocessors.run_decorator"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_decorator()</span></code></a>, supplanting
 <a class="reference internal" href="generated/bluesky.plan_stubs.open_run.html#bluesky.plan_stubs.open_run" title="bluesky.plan_stubs.open_run"><code class="xref py py-func docutils literal notranslate"><span class="pre">open_run()</span></code></a> and <a class="reference internal" href="generated/bluesky.plan_stubs.close_run.html#bluesky.plan_stubs.close_run" title="bluesky.plan_stubs.close_run"><code class="xref py py-func docutils literal notranslate"><span class="pre">close_run()</span></code></a>.
 The result:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bluesky.preprocessors</span> <span class="k">as</span> <span class="nn">bpp</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.preprocessors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bpp</span>
 
-<span class="k">def</span> <span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">):</span>
 
     <span class="nd">@bpp</span><span class="o">.</span><span class="n">stage_decorator</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span>
     <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">():</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="o">*</span><span class="n">detectors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;primary&#39;</span><span class="p">)</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">trigger_and_read</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span>
 
@@ -2174,7 +2149,7 @@ pass it to <a class="reference internal" href="generated/bluesky.preprocessors.r
 verbose formulation, to <a class="reference internal" href="generated/bluesky.plan_stubs.open_run.html#bluesky.plan_stubs.open_run" title="bluesky.plan_stubs.open_run"><code class="xref py py-func docutils literal notranslate"><span class="pre">open_run()</span></code></a>). The RunEngine
 will combine this metadata with any information provided by the user, as shown
 in the <a class="reference internal" href="#tutorial-metadata"><span class="std std-ref">the earlier section on metadata</span></a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">):</span>
 
     <span class="n">md</span> <span class="o">=</span> <span class="p">{</span>
         <span class="c1"># Human-friendly names of detector Devices (useful for searching)</span>
@@ -2189,7 +2164,7 @@ in the <a class="reference internal" href="#tutorial-metadata"><span class="std 
 
     <span class="nd">@bpp</span><span class="o">.</span><span class="n">stage_decorator</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span>
     <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">():</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="o">*</span><span class="n">detectors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;primary&#39;</span><span class="p">)</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">trigger_and_read</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span>
 
@@ -2207,7 +2182,7 @@ to do with those and will error.</p>
 bluesky’s “pre-assembled” plans (<a class="reference internal" href="generated/bluesky.plans.count.html#bluesky.plans.count" title="bluesky.plans.count"><code class="xref py py-func docutils literal notranslate"><span class="pre">count()</span></code></a>,
 <a class="reference internal" href="generated/bluesky.plans.scan.html#bluesky.plans.scan" title="bluesky.plans.scan"><code class="xref py py-func docutils literal notranslate"><span class="pre">scan()</span></code></a>, etc.) provide an optional <code class="docutils literal notranslate"><span class="pre">md</span></code> argument for this
 purpose, implemented like so:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">one_run_one_event</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
     <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;detectors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">det</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">det</span> <span class="ow">in</span> <span class="n">detectors</span><span class="p">],</span>
@@ -2220,7 +2195,7 @@ purpose, implemented like so:</p>
 
     <span class="nd">@bpp</span><span class="o">.</span><span class="n">stage_decorator</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span>
     <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">_md</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">():</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="o">*</span><span class="n">detectors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;primary&#39;</span><span class="p">)</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">trigger_and_read</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span>
 
@@ -2300,7 +2275,7 @@ might not have a <code class="docutils literal notranslate"><span class="pre">hi
 hints might not contain the <code class="docutils literal notranslate"><span class="pre">'fields'</span></code> key that we are interested in. This
 pattern silently omits the dimensions hint if the necessary information is not
 provided by the Device:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">scan</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span>
     <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
 
@@ -2322,15 +2297,15 @@ if they know better by passing in <code class="docutils literal notranslate"><sp
 <p>Two-way communication is possible between the generator and the RunEngine.
 For example, the <code class="xref py py-func docutils literal notranslate"><span class="pre">trigger_and_read()</span></code> plan responds with its readings. We
 can use it to make an on-the-fly decision about whether to continue or stop.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bluesky.preprocessors</span> <span class="k">as</span> <span class="nn">bpp</span>
-<span class="kn">import</span> <span class="nn">bluesky.plan_stubs</span> <span class="k">as</span> <span class="nn">bps</span>
-<span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">det</span><span class="p">,</span> <span class="n">motor</span>
-<span class="k">def</span> <span class="nf">conditional_break</span><span class="p">(</span><span class="n">threshold</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.preprocessors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bpp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">det</span><span class="p">,</span> <span class="n">motor</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">conditional_break</span><span class="p">(</span><span class="n">threshold</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set, trigger, read until the detector reads intensity &lt; threshold&quot;&quot;&quot;</span>
 
     <span class="nd">@bpp</span><span class="o">.</span><span class="n">stage_decorator</span><span class="p">([</span><span class="n">det</span><span class="p">,</span> <span class="n">motor</span><span class="p">])</span>
     <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">():</span>
         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="n">det</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;primary&#39;</span><span class="p">)</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -2346,21 +2321,21 @@ can use it to make an on-the-fly decision about whether to continue or stop.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [39]: </span><span class="n">RE</span><span class="p">(</span><span class="n">conditional_break</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 14     Time: 2024-08-26 21:59:38</span>
-<span class="go">Persistent Unique Scan ID: &#39;1d964944-0bd2-4fd4-a371-5ae2527dcb1c&#39;</span>
+<span class="go">Transient Scan ID: 14     Time: 2025-01-31 17:22:33</span>
+<span class="go">Persistent Unique Scan ID: &#39;2e98e1ca-38af-4c6a-8841-969fe4160ca5&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+</span>
 <span class="go">|   seq_num |       time |        det |</span>
 <span class="go">+-----------+------------+------------+</span>
-<span class="go">|         1 | 21:59:38.6 |      1.000 |</span>
-<span class="go">|         2 | 21:59:38.7 |      0.607 |</span>
-<span class="go">|         3 | 21:59:38.7 |      0.135 |</span>
+<span class="go">|         1 | 17:22:33.3 |      1.000 |</span>
+<span class="go">|         2 | 17:22:33.4 |      0.607 |</span>
+<span class="go">|         3 | 17:22:33.4 |      0.135 |</span>
 <span class="go">+-----------+------------+------------+</span>
-<span class="go">generator conditional_break [&#39;1d964944&#39;] (scan num: 14)</span>
+<span class="go">generator conditional_break [&#39;2e98e1ca&#39;] (scan num: 14)</span>
 
 
 
-<span class="gh">Out[39]: </span><span class="go">(&#39;1d964944-0bd2-4fd4-a371-5ae2527dcb1c&#39;,)</span>
+<span class="gh">Out[39]: </span><span class="go">(&#39;2e98e1ca-38af-4c6a-8841-969fe4160ca5&#39;,)</span>
 </pre></div>
 </div>
 <p>The important line in this example is</p>
@@ -2391,11 +2366,11 @@ this from <a class="reference internal" href="#tutorial-pause-resume-suspend"><s
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># This example is illustrative, but it is not completely correct.</span>
 <span class="c1"># Use `finalize_wrapper` instead (or read its source code).</span>
 
-<span class="k">def</span> <span class="nf">plan_with_cleanup</span><span class="p">():</span>
-    <span class="k">def</span> <span class="nf">main_plan</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plan_with_cleanup</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">main_plan</span><span class="p">():</span>
         <span class="c1"># do stuff...</span>
 
-    <span class="k">def</span> <span class="nf">cleanup_plan</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cleanup_plan</span><span class="p">():</span>
         <span class="c1"># do other stuff...</span>
 
     <span class="k">try</span><span class="p">:</span>
@@ -2411,9 +2386,9 @@ allowing for targeted cleanup based on specific failure modes.</p>
 RunEngine when it attempts to execute a given command.</p>
 <p>The <a class="reference internal" href="generated/bluesky.preprocessors.finalize_wrapper.html#bluesky.preprocessors.finalize_wrapper" title="bluesky.preprocessors.finalize_wrapper"><code class="xref py py-func docutils literal notranslate"><span class="pre">finalize_wrapper()</span></code></a> preprocessor provides a
 succinct and fully correct way of applying this general pattern.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bluesky.preprocessors</span> <span class="k">as</span> <span class="nn">bpp</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.preprocessors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bpp</span>
 
-<span class="k">def</span> <span class="nf">plan_with_cleanup</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plan_with_cleanup</span><span class="p">():</span>
     <span class="k">yield from</span> <span class="n">bpp</span><span class="o">.</span><span class="n">finalize_wrapper</span><span class="p">(</span><span class="n">main_plan</span><span class="p">(),</span> <span class="n">cleanup_plan</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -2468,7 +2443,8 @@ succinct and fully correct way of applying this general pattern.</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -2539,7 +2515,7 @@ succinct and fully correct way of applying this general pattern.</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/bluesky/bluesky/edit/0.1.dev5061+gf25df0b/docs/tutorial.rst">
+    <a href="https://github.com/bluesky/bluesky/edit/0.1.dev5179+g3956788/docs/tutorial.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -2552,13 +2528,13 @@ succinct and fully correct way of applying this general pattern.</p>
 </div>
 
   <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="_sources/tutorial.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorial.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
 
 </div></div>
               
@@ -2573,8 +2549,8 @@ succinct and fully correct way of applying this general pattern.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -2607,7 +2583,8 @@ succinct and fully correct way of applying this general pattern.</p>
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>

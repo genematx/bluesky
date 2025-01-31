@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Multi-Run Plans &#8212; bluesky 0.1.dev5061+gf25df0b documentation</title>
+    <title>Multi-Run Plans &#8212; bluesky 0.1.dev5179+g3956788 documentation</title>
   
   
   
@@ -16,35 +16,39 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
   
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=e309cc7d"></script>
+    <script src="_static/documentation_options.js?v=040f89a2"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'multi_run_plans';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://blueskyproject.io/bluesky/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.1.dev5061+gf25df0b';
-        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.1.dev5179+g3956788';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
         </script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -52,6 +56,7 @@
     <link rel="prev" title="Asynchronous Acquisition" href="async.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.1.dev5179+g3956788" />
   </head>
   
   
@@ -67,19 +72,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -87,7 +81,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -95,8 +88,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -130,7 +123,7 @@
     
     
     <img src="_static/bluesky-logo-dark.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="_static/bluesky-logo-dark.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="_static/bluesky-logo-dark.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">bluesky</p>
@@ -182,7 +175,9 @@
 </li>
 
             <li class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
@@ -235,29 +230,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -288,28 +275,24 @@ document.write(`
 </ul></div>
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <div class="version-switcher__container dropdown">
-    <button id="pst-version-switcher-button-2"
-      type="button"
-      class="version-switcher__button btn btn-sm dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-haspopup="listbox"
-      aria-controls="pst-version-switcher-list-2"
-      aria-label="Version switcher list"
-    >
-      Choose version  <!-- this text may get changed later by javascript -->
-      <span class="caret"></span>
-    </button>
-    <div id="pst-version-switcher-list-2"
-      class="version-switcher__menu dropdown-menu list-group-flush py-0"
-      role="listbox" aria-labelledby="pst-version-switcher-button-2">
-      <!-- dropdown will be populated by javascript on page load -->
-    </div>
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
   </div>
-`);
-</script></div>
+</div></div>
       
     </div>
     
@@ -318,15 +301,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -345,7 +324,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -441,15 +421,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -480,28 +456,24 @@ document.write(`
 </ul></div>
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <div class="version-switcher__container dropdown">
-    <button id="pst-version-switcher-button-3"
-      type="button"
-      class="version-switcher__button btn btn-sm dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-haspopup="listbox"
-      aria-controls="pst-version-switcher-list-3"
-      aria-label="Version switcher list"
-    >
-      Choose version  <!-- this text may get changed later by javascript -->
-      <span class="caret"></span>
-    </button>
-    <div id="pst-version-switcher-list-3"
-      class="version-switcher__menu dropdown-menu list-group-flush py-0"
-      role="listbox" aria-labelledby="pst-version-switcher-button-3">
-      <!-- dropdown will be populated by javascript on page load -->
-    </div>
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
   </div>
-`);
-</script></div>
+</div></div>
         
       </div>
     
@@ -540,9 +512,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -560,8 +537,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -573,7 +548,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="userindex.html" class="nav-link">User Documentation</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Multi-Run Plans</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Multi-Run Plans</span></li>
   </ul>
 </nav>
 </div>
@@ -623,12 +598,12 @@ can be processed by callbacks (such as BestEffortCallback) and saved to the data
 <cite>bps.close_run()</cite> stubs:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using &#39;bps.open_run()&#39; and &#39;bps.close_run()&#39; stubs to define a run</span>
 
-<span class="kn">import</span> <span class="nn">bluesky.plan_stubs</span> <span class="k">as</span> <span class="nn">bps</span>
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
 
 <span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
 
-<span class="k">def</span> <span class="nf">sample_plan</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_plan</span><span class="p">():</span>
     <span class="o">...</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">open_run</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{})</span>  <span class="c1"># &#39;md&#39; - metadata to be added to the &#39;start&#39; document</span>
     <span class="o">...</span>
@@ -643,13 +618,13 @@ can be processed by callbacks (such as BestEffortCallback) and saved to the data
 before and after the sequence generated by the enclosed code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using &#39;bpp.run_decorator&#39; to define a run</span>
 
-<span class="kn">import</span> <span class="nn">bluesky.preprocessors</span> <span class="k">as</span> <span class="nn">bpp</span>
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.preprocessors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bpp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
 
 <span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
 
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{})</span>  <span class="c1"># &#39;md&#39; - metadata to be added to the &#39;start&#39; document</span>
-<span class="k">def</span> <span class="nf">sample_plan</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_plan</span><span class="p">():</span>
     <span class="o">...</span>
     <span class="o">&lt;</span> <span class="n">code</span> <span class="n">that</span> <span class="n">controls</span> <span class="n">execution</span> <span class="n">of</span> <span class="n">the</span> <span class="n">scan</span> <span class="o">&gt;</span>
     <span class="o">...</span>
@@ -661,12 +636,12 @@ before and after the sequence generated by the enclosed code:</p>
 the next scan is opened, therefore the following code works:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># This code works, since the first run is closed before the second one is opened</span>
 
-<span class="kn">import</span> <span class="nn">bluesky.plan_stubs</span> <span class="k">as</span> <span class="nn">bps</span>
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
 
 <span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
 
-<span class="k">def</span> <span class="nf">sample_plan</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_plan</span><span class="p">():</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">open_run</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{})</span>
     <span class="o">&lt;</span> <span class="n">code</span> <span class="n">that</span> <span class="n">controls</span> <span class="n">execution</span> <span class="n">of</span> <span class="n">the</span> <span class="n">scan</span> <span class="o">&gt;</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">close_run</span><span class="p">()</span>  <span class="c1"># Closing the first run (scan)</span>
@@ -680,12 +655,12 @@ the next scan is opened, therefore the following code works:</p>
 <p>but the following code fails:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># This code fails, since the second run is opened before the first run is closed</span>
 
-<span class="kn">import</span> <span class="nn">bluesky.plan_stubs</span> <span class="k">as</span> <span class="nn">bps</span>
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
 
 <span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
 
-<span class="k">def</span> <span class="nf">sample_plan</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_plan</span><span class="p">():</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">open_run</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{})</span>  <span class="c1"># Opening the first run</span>
     <span class="o">&lt;</span> <span class="n">code</span> <span class="n">that</span> <span class="n">controls</span> <span class="n">execution</span> <span class="n">of</span> <span class="n">the</span> <span class="n">scan</span> <span class="o">&gt;</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">open_run</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{})</span>  <span class="c1"># Opening the second run before the first one is closed</span>
@@ -701,13 +676,13 @@ are complete single-run plans, enclosed in <cite>open_run</cite> and <cite>close
 the following code fails as well:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># This code fails while attempting to start a preassembled plan from an open run</span>
 
-<span class="kn">import</span> <span class="nn">bluesky.plan_stubs</span> <span class="k">as</span> <span class="nn">bps</span>
-<span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">count</span>
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">count</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
 
 <span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
 
-<span class="k">def</span> <span class="nf">sample_plan</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_plan</span><span class="p">():</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">open_run</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{})</span>  <span class="c1"># Starting the first run</span>
     <span class="o">&lt;</span> <span class="n">code</span> <span class="n">that</span> <span class="n">controls</span> <span class="n">execution</span> <span class="n">of</span> <span class="n">the</span> <span class="n">scan</span> <span class="o">&gt;</span>
     <span class="k">yield from</span> <span class="n">bpp</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="o">&lt;</span><span class="n">some</span> <span class="n">arguments</span><span class="o">&gt;</span><span class="p">)</span>  <span class="c1"># Attempting to run a preassembled plan from an open run</span>
@@ -741,21 +716,21 @@ to route the documents to the appropriate callbacks. If documents are saved usin
 allows to associate documents with runs and retrieve run data from the database.)</p></li>
 </ul>
 <p>Run key is assigned to a block of code using <cite>bpp.set_run_key_wrapper</cite> or <cite>&#64;bpp.set_run_key_decorator</cite>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bluesky.preprocessors</span> <span class="k">as</span> <span class="nn">bpp</span>
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.preprocessors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bpp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
 
 <span class="c1"># Using decorator</span>
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">set_run_key_decorator</span><span class="p">(</span><span class="s2">&quot;run_key_example_1&quot;</span><span class="p">)</span>
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{})</span>
-<span class="k">def</span> <span class="nf">sample_plan</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_plan</span><span class="p">():</span>
     <span class="o">...</span>
     <span class="o">&lt;</span> <span class="n">code</span> <span class="n">that</span> <span class="n">controls</span> <span class="n">execution</span> <span class="n">of</span> <span class="n">the</span> <span class="n">run</span> <span class="o">&gt;</span>
     <span class="o">...</span>
 
 <span class="n">RE</span><span class="p">(</span><span class="n">sample_plan</span><span class="p">())</span>
 
-<span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">scan</span>
-<span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">hw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">scan</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">hw</span>
 <span class="n">det</span><span class="p">,</span> <span class="n">motor</span> <span class="o">=</span> <span class="n">hw</span><span class="p">()</span><span class="o">.</span><span class="n">det</span><span class="p">,</span> <span class="n">hw</span><span class="p">()</span><span class="o">.</span><span class="n">motor</span>
 
 <span class="c1"># Using wrapper</span>
@@ -784,12 +759,12 @@ a single instance of BestEffortCallback, which is set up to display data specifi
 when the run opened.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: consecutive execution of single-run plans</span>
 
-<span class="kn">from</span> <span class="nn">databroker</span> <span class="kn">import</span> <span class="n">Broker</span>
-<span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">hw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">databroker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Broker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">hw</span>
 
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
-<span class="kn">from</span> <span class="nn">bluesky.callbacks.best_effort</span> <span class="kn">import</span> <span class="n">BestEffortCallback</span>
-<span class="kn">from</span> <span class="nn">bluesky.plans</span> <span class="kn">import</span> <span class="n">rel_scan</span><span class="p">,</span> <span class="n">scan</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks.best_effort</span><span class="w"> </span><span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">rel_scan</span><span class="p">,</span> <span class="n">scan</span>
 
 <span class="n">hw</span> <span class="o">=</span> <span class="n">hw</span><span class="p">()</span>
 
@@ -802,7 +777,7 @@ when the run opened.</p>
 <span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">bec</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">plan_sequential_runs</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plan_sequential_runs</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
     <span class="c1"># Single-run plans may be called consecutively. No special handling is required</span>
     <span class="c1">#   as long as the previous scan is closed before the next one is opened</span>
     <span class="k">yield from</span> <span class="n">scan</span><span class="p">([</span><span class="n">hw</span><span class="o">.</span><span class="n">det1</span><span class="p">],</span> <span class="n">hw</span><span class="o">.</span><span class="n">motor1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">npts</span><span class="p">)</span>
@@ -812,53 +787,53 @@ when the run opened.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="n">RE</span><span class="p">(</span><span class="n">plan_sequential_runs</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 1     Time: 2024-08-26 21:58:46</span>
-<span class="go">Persistent Unique Scan ID: &#39;954d40c4-8ae7-4bd1-9e04-99606c0eb4ff&#39;</span>
+<span class="go">Transient Scan ID: 1     Time: 2025-01-31 17:21:47</span>
+<span class="go">Persistent Unique Scan ID: &#39;76a2be15-0281-4b55-bb69-e600a778ab27&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |     motor1 |       det1 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:58:46.6 |     -1.000 |      0.677 |</span>
-<span class="go">|         2 | 21:58:46.7 |     -0.778 |      1.491 |</span>
-<span class="go">|         3 | 21:58:46.8 |     -0.556 |      2.697 |</span>
-<span class="go">|         4 | 21:58:46.8 |     -0.333 |      4.004 |</span>
-<span class="go">|         5 | 21:58:46.9 |     -0.111 |      4.878 |</span>
-<span class="go">|         6 | 21:58:47.0 |      0.111 |      4.878 |</span>
-<span class="go">|         7 | 21:58:47.0 |      0.333 |      4.004 |</span>
-<span class="go">|         8 | 21:58:47.1 |      0.556 |      2.697 |</span>
-<span class="go">|         9 | 21:58:47.1 |      0.778 |      1.491 |</span>
-<span class="go">|        10 | 21:58:47.2 |      1.000 |      0.677 |</span>
+<span class="go">|         1 | 17:21:47.9 |     -1.000 |      0.677 |</span>
+<span class="go">|         2 | 17:21:47.9 |     -0.778 |      1.491 |</span>
+<span class="go">|         3 | 17:21:48.0 |     -0.556 |      2.697 |</span>
+<span class="go">|         4 | 17:21:48.0 |     -0.333 |      4.004 |</span>
+<span class="go">|         5 | 17:21:48.1 |     -0.111 |      4.878 |</span>
+<span class="go">|         6 | 17:21:48.1 |      0.111 |      4.878 |</span>
+<span class="go">|         7 | 17:21:48.2 |      0.333 |      4.004 |</span>
+<span class="go">|         8 | 17:21:48.2 |      0.556 |      2.697 |</span>
+<span class="go">|         9 | 17:21:48.3 |      0.778 |      1.491 |</span>
+<span class="go">|        10 | 17:21:48.3 |      1.000 |      0.677 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator scan [&#39;954d40c4&#39;] (scan num: 1)</span>
+<span class="go">generator scan [&#39;76a2be15&#39;] (scan num: 1)</span>
 
 
 
 
 
-<span class="go">Transient Scan ID: 2     Time: 2024-08-26 21:58:47</span>
-<span class="go">Persistent Unique Scan ID: &#39;e74b9a81-5d4f-43df-a4e9-43c901df7664&#39;</span>
+<span class="go">Transient Scan ID: 2     Time: 2025-01-31 17:21:48</span>
+<span class="go">Persistent Unique Scan ID: &#39;a4d4820a-e09f-4847-8979-f0db3b2539f7&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |     motor1 |       det1 |       det2 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:58:47.4 |      0.000 |      5.000 |      1.765 |</span>
-<span class="go">|         2 | 21:58:47.7 |      0.222 |      4.530 |      1.765 |</span>
-<span class="go">|         3 | 21:58:47.9 |      0.444 |      3.368 |      1.765 |</span>
-<span class="go">|         4 | 21:58:48.2 |      0.667 |      2.056 |      1.765 |</span>
-<span class="go">|         5 | 21:58:48.4 |      0.889 |      1.030 |      1.765 |</span>
-<span class="go">|         6 | 21:58:48.7 |      1.111 |      0.423 |      1.765 |</span>
-<span class="go">|         7 | 21:58:48.9 |      1.333 |      0.143 |      1.765 |</span>
-<span class="go">|         8 | 21:58:49.2 |      1.556 |      0.040 |      1.765 |</span>
-<span class="go">|         9 | 21:58:49.4 |      1.778 |      0.009 |      1.765 |</span>
-<span class="go">|        10 | 21:58:49.6 |      2.000 |      0.002 |      1.765 |</span>
+<span class="go">|         1 | 17:21:48.5 |      0.000 |      5.000 |      1.765 |</span>
+<span class="go">|         2 | 17:21:48.7 |      0.222 |      4.530 |      1.765 |</span>
+<span class="go">|         3 | 17:21:48.9 |      0.444 |      3.368 |      1.765 |</span>
+<span class="go">|         4 | 17:21:49.1 |      0.667 |      2.056 |      1.765 |</span>
+<span class="go">|         5 | 17:21:49.2 |      0.889 |      1.030 |      1.765 |</span>
+<span class="go">|         6 | 17:21:49.4 |      1.111 |      0.423 |      1.765 |</span>
+<span class="go">|         7 | 17:21:49.6 |      1.333 |      0.143 |      1.765 |</span>
+<span class="go">|         8 | 17:21:49.7 |      1.556 |      0.040 |      1.765 |</span>
+<span class="go">|         9 | 17:21:49.9 |      1.778 |      0.009 |      1.765 |</span>
+<span class="go">|        10 | 17:21:50.1 |      2.000 |      0.002 |      1.765 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">generator rel_scan [&#39;e74b9a81&#39;] (scan num: 2)</span>
+<span class="go">generator rel_scan [&#39;a4d4820a&#39;] (scan num: 2)</span>
 
 
 
 <span class="gh">Out[1]: </span>
-<span class="go">(&#39;954d40c4-8ae7-4bd1-9e04-99606c0eb4ff&#39;,</span>
-<span class="go"> &#39;e74b9a81-5d4f-43df-a4e9-43c901df7664&#39;)</span>
+<span class="go">(&#39;76a2be15-0281-4b55-bb69-e600a778ab27&#39;,</span>
+<span class="go"> &#39;a4d4820a-e09f-4847-8979-f0db3b2539f7&#39;)</span>
 </pre></div>
 </div>
 </section>
@@ -877,14 +852,14 @@ subscription should be performed via <cite>RunRouter</cite>. The code in the fol
 to use <cite>BestEffortCallback</cite> to monitor data from multiple nested runs.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: nested runs</span>
 
-<span class="kn">from</span> <span class="nn">databroker</span> <span class="kn">import</span> <span class="n">Broker</span>
-<span class="kn">from</span> <span class="nn">event_model</span> <span class="kn">import</span> <span class="n">RunRouter</span>
-<span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">hw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">databroker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Broker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">event_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunRouter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">hw</span>
 
-<span class="kn">import</span> <span class="nn">bluesky.plan_stubs</span> <span class="k">as</span> <span class="nn">bps</span>
-<span class="kn">import</span> <span class="nn">bluesky.preprocessors</span> <span class="k">as</span> <span class="nn">bpp</span>
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
-<span class="kn">from</span> <span class="nn">bluesky.callbacks.best_effort</span> <span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.preprocessors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bpp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks.best_effort</span><span class="w"> </span><span class="kn">import</span> <span class="n">BestEffortCallback</span>
 
 <span class="n">hw</span> <span class="o">=</span> <span class="n">hw</span><span class="p">()</span>
 
@@ -894,7 +869,7 @@ to use <cite>BestEffortCallback</cite> to monitor data from multiple nested runs
 <span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
     <span class="c1"># Documents from each run is routed to an independent</span>
     <span class="c1">#   instance of BestEffortCallback</span>
     <span class="n">bec</span> <span class="o">=</span> <span class="n">BestEffortCallback</span><span class="p">()</span>
@@ -907,7 +882,7 @@ to use <cite>BestEffortCallback</cite> to monitor data from multiple nested runs
 
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">set_run_key_decorator</span><span class="p">(</span><span class="s2">&quot;run_2&quot;</span><span class="p">)</span>
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{})</span>
-<span class="k">def</span> <span class="nf">sim_plan_inner</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sim_plan_inner</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="n">hw</span><span class="o">.</span><span class="n">motor1</span><span class="p">,</span> <span class="n">hw</span><span class="o">.</span><span class="n">motor2</span><span class="p">,</span> <span class="n">hw</span><span class="o">.</span><span class="n">det2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">hw</span><span class="o">.</span><span class="n">motor1</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">hw</span><span class="o">.</span><span class="n">motor2</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="mf">0.2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
@@ -916,7 +891,7 @@ to use <cite>BestEffortCallback</cite> to monitor data from multiple nested runs
 
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">set_run_key_decorator</span><span class="p">(</span><span class="s2">&quot;run_1&quot;</span><span class="p">)</span>
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{})</span>
-<span class="k">def</span> <span class="nf">sim_plan_outer</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sim_plan_outer</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="n">hw</span><span class="o">.</span><span class="n">motor</span><span class="p">,</span> <span class="n">hw</span><span class="o">.</span><span class="n">det</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">npts</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)):</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">hw</span><span class="o">.</span><span class="n">motor</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">)</span>
@@ -936,11 +911,11 @@ the table for the ‘outer’ run.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [2]: </span><span class="n">RE</span><span class="p">(</span><span class="n">sim_plan_outer</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 1     Time: 2024-08-26 21:58:50</span>
-<span class="go">Persistent Unique Scan ID: &#39;26f9bf99-39c0-4fb1-967d-801f741eb5d1&#39;</span>
+<span class="go">Transient Scan ID: 1     Time: 2025-01-31 17:21:50</span>
+<span class="go">Persistent Unique Scan ID: &#39;7e97551b-9fac-4311-87ab-94fdfc9c437a&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|   seq_num |       time |      motor |        det |</span>
+<span class="go">|   seq_num |       time |        det |      motor |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
@@ -949,11 +924,11 @@ the table for the ‘outer’ run.</p>
 <span class="go"> failed to format row </span>
 
 
-<span class="go">Transient Scan ID: 2     Time: 2024-08-26 21:58:51</span>
-<span class="go">Persistent Unique Scan ID: &#39;0793716d-72e7-43f3-be64-e5a98daddbfc&#39;</span>
+<span class="go">Transient Scan ID: 2     Time: 2025-01-31 17:21:51</span>
+<span class="go">Persistent Unique Scan ID: &#39;de814ce9-b711-47a6-b852-4277e94537f5&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">|   seq_num |       time |     motor1 |     motor2 |       det2 |</span>
+<span class="go">|   seq_num |       time |     motor2 |     motor1 |       det2 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
@@ -967,7 +942,7 @@ the table for the ‘outer’ run.</p>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">generator sim_plan_outer [&#39;0793716d&#39;] (scan num: 2)</span>
+<span class="go">generator sim_plan_outer [&#39;de814ce9&#39;] (scan num: 2)</span>
 
 
 
@@ -977,19 +952,19 @@ the table for the ‘outer’ run.</p>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator sim_plan_outer [&#39;26f9bf99&#39;] (scan num: 1)</span>
+<span class="go">generator sim_plan_outer [&#39;7e97551b&#39;] (scan num: 1)</span>
 
 
 
 <span class="gh">Out[2]: </span>
-<span class="go">(&#39;26f9bf99-39c0-4fb1-967d-801f741eb5d1&#39;,</span>
-<span class="go"> &#39;0793716d-72e7-43f3-be64-e5a98daddbfc&#39;)</span>
+<span class="go">(&#39;7e97551b-9fac-4311-87ab-94fdfc9c437a&#39;,</span>
+<span class="go"> &#39;de814ce9-b711-47a6-b852-4277e94537f5&#39;)</span>
 </pre></div>
 </div>
 <p>The wrapper <cite>bpp.set_run_key_wrapper</cite> can be used instead of the decorator. For example
 the run <cite>sim_plan_inner</cite> from the previous example can be rewritten as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sim_plan_inner</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sim_plan_inner</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
             <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">hw</span><span class="o">.</span><span class="n">motor1</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">hw</span><span class="o">.</span><span class="n">motor2</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="mf">0.2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
             <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">trigger_and_read</span><span class="p">([</span><span class="n">hw</span><span class="o">.</span><span class="n">motor1</span><span class="p">,</span> <span class="n">hw</span><span class="o">.</span><span class="n">motor2</span><span class="p">,</span> <span class="n">hw</span><span class="o">.</span><span class="n">det2</span><span class="p">])</span>
@@ -1003,14 +978,14 @@ document metadata and used to distinguish between two runs in the function facto
 performs callback subscriptions.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: subscribing runs to individual sets of callbacks</span>
 
-<span class="kn">from</span> <span class="nn">databroker</span> <span class="kn">import</span> <span class="n">Broker</span>
-<span class="kn">from</span> <span class="nn">event_model</span> <span class="kn">import</span> <span class="n">RunRouter</span>
-<span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">hw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">databroker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Broker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">event_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunRouter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">hw</span>
 
-<span class="kn">import</span> <span class="nn">bluesky.plan_stubs</span> <span class="k">as</span> <span class="nn">bps</span>
-<span class="kn">import</span> <span class="nn">bluesky.preprocessors</span> <span class="k">as</span> <span class="nn">bpp</span>
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
-<span class="kn">from</span> <span class="nn">bluesky.callbacks</span> <span class="kn">import</span> <span class="n">LivePlot</span><span class="p">,</span> <span class="n">LiveTable</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.preprocessors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bpp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">LivePlot</span><span class="p">,</span> <span class="n">LiveTable</span>
 
 <span class="n">hw</span> <span class="o">=</span> <span class="n">hw</span><span class="p">()</span>
 
@@ -1020,7 +995,7 @@ performs callback subscriptions.</p>
 <span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
     <span class="c1"># Runs may be subscribed to different sets of callbacks. Metadata from start</span>
     <span class="c1">#   document may be used to identify, which run is currently being started.</span>
     <span class="c1">#   In this example, the run key is explicitely added to the start document</span>
@@ -1040,7 +1015,7 @@ performs callback subscriptions.</p>
 
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">set_run_key_decorator</span><span class="p">(</span><span class="s2">&quot;run_2&quot;</span><span class="p">)</span>
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;run_key&quot;</span><span class="p">:</span> <span class="s2">&quot;run_2&quot;</span><span class="p">})</span>
-<span class="k">def</span> <span class="nf">sim_plan_inner</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sim_plan_inner</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="n">hw</span><span class="o">.</span><span class="n">motor1</span><span class="p">,</span> <span class="n">hw</span><span class="o">.</span><span class="n">motor2</span><span class="p">,</span> <span class="n">hw</span><span class="o">.</span><span class="n">det2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">hw</span><span class="o">.</span><span class="n">motor1</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">hw</span><span class="o">.</span><span class="n">motor2</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="mf">0.2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
@@ -1049,7 +1024,7 @@ performs callback subscriptions.</p>
 
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">set_run_key_decorator</span><span class="p">(</span><span class="s2">&quot;run_1&quot;</span><span class="p">)</span>
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;run_key&quot;</span><span class="p">:</span> <span class="s2">&quot;run_1&quot;</span><span class="p">})</span>
-<span class="k">def</span> <span class="nf">sim_plan_outer</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sim_plan_outer</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="n">hw</span><span class="o">.</span><span class="n">motor1</span><span class="p">,</span> <span class="n">hw</span><span class="o">.</span><span class="n">det1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">npts</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)):</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">hw</span><span class="o">.</span><span class="n">motor1</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
@@ -1090,7 +1065,7 @@ performs callback subscriptions.</p>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
 <span class="go">+-----------+------------+------------+-----------------+------------+-----------------+------------+</span>
-<span class="go">generator sim_plan_outer [&#39;b30788b8&#39;] (scan num: 2)</span>
+<span class="go">generator sim_plan_outer [&#39;88851e3b&#39;] (scan num: 2)</span>
 
 
 <span class="go"> failed to format row </span>
@@ -1099,12 +1074,12 @@ performs callback subscriptions.</p>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
 <span class="go">+-----------+------------+------------+-----------------+------------+</span>
-<span class="go">generator sim_plan_outer [&#39;42dabac2&#39;] (scan num: 1)</span>
+<span class="go">generator sim_plan_outer [&#39;9a2d2b41&#39;] (scan num: 1)</span>
 
 
 <span class="gh">Out[3]: </span>
-<span class="go">(&#39;42dabac2-4695-4c68-9107-da818be1451f&#39;,</span>
-<span class="go"> &#39;b30788b8-7317-4e4e-95ff-ae93c9e1e721&#39;)</span>
+<span class="go">(&#39;9a2d2b41-8abf-455f-906e-ed3146582458&#39;,</span>
+<span class="go"> &#39;88851e3b-caf8-4d5f-97e9-13ed3d686257&#39;)</span>
 </pre></div>
 </div>
 <p>In some cases it may be necessary to implement a run that could be interrupted
@@ -1121,14 +1096,14 @@ the global counter <cite>n_calls</cite> reaches the maximum value of <cite>n_cal
 before at each call.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: recursive runs</span>
 
-<span class="kn">from</span> <span class="nn">databroker</span> <span class="kn">import</span> <span class="n">Broker</span>
-<span class="kn">from</span> <span class="nn">event_model</span> <span class="kn">import</span> <span class="n">RunRouter</span>
-<span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">hw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">databroker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Broker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">event_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunRouter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">hw</span>
 
-<span class="kn">import</span> <span class="nn">bluesky.plan_stubs</span> <span class="k">as</span> <span class="nn">bps</span>
-<span class="kn">import</span> <span class="nn">bluesky.preprocessors</span> <span class="k">as</span> <span class="nn">bpp</span>
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
-<span class="kn">from</span> <span class="nn">bluesky.callbacks.best_effort</span> <span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.preprocessors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bpp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks.best_effort</span><span class="w"> </span><span class="kn">import</span> <span class="n">BestEffortCallback</span>
 
 <span class="n">hw</span> <span class="o">=</span> <span class="n">hw</span><span class="p">()</span>
 
@@ -1138,7 +1113,7 @@ before at each call.</p>
 <span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
     <span class="c1"># Each run is subscribed to independent instance of BEC</span>
     <span class="n">bec</span> <span class="o">=</span> <span class="n">BestEffortCallback</span><span class="p">()</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">bec</span><span class="p">],</span> <span class="p">[]</span>
@@ -1151,7 +1126,7 @@ before at each call.</p>
 <span class="n">n_calls</span><span class="p">,</span> <span class="n">n_calls_max</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span>
 
 
-<span class="k">def</span> <span class="nf">sim_plan_recursive</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sim_plan_recursive</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
     <span class="k">global</span> <span class="n">n_calls</span><span class="p">,</span> <span class="n">n_calls_max</span>
 
     <span class="n">n_calls</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Increment counter</span>
@@ -1163,7 +1138,7 @@ before at each call.</p>
 
         <span class="nd">@bpp</span><span class="o">.</span><span class="n">set_run_key_decorator</span><span class="p">(</span><span class="n">run_key</span><span class="p">)</span>
         <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{})</span>
-        <span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">plan</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
             <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="n">hw</span><span class="o">.</span><span class="n">motor1</span><span class="p">,</span> <span class="n">hw</span><span class="o">.</span><span class="n">det1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">npts</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)):</span>
                 <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">hw</span><span class="o">.</span><span class="n">motor1</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">)</span>
@@ -1182,8 +1157,8 @@ before at each call.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="n">RE</span><span class="p">(</span><span class="n">sim_plan_recursive</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 1     Time: 2024-08-26 21:58:59</span>
-<span class="go">Persistent Unique Scan ID: &#39;fdd8ef44-61af-469f-af3a-63355aafe31a&#39;</span>
+<span class="go">Transient Scan ID: 1     Time: 2025-01-31 17:21:57</span>
+<span class="go">Persistent Unique Scan ID: &#39;5f3d4a56-0f2c-41bf-989c-62e1ac4279a2&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |     motor1 |       det1 |</span>
@@ -1192,62 +1167,62 @@ before at each call.</p>
 <span class="go"> failed to format row </span>
 
 
-<span class="go">Transient Scan ID: 2     Time: 2024-08-26 21:58:59</span>
-<span class="go">Persistent Unique Scan ID: &#39;469cd3ff-d27c-4028-be36-aaa3411b8b61&#39;</span>
+<span class="go">Transient Scan ID: 2     Time: 2025-01-31 17:21:58</span>
+<span class="go">Persistent Unique Scan ID: &#39;e76a45e8-f659-4007-88e4-ea269b67cdc8&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |     motor1 |       det1 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:58:59.9 |      0.000 |      5.000 |</span>
-<span class="go">|         2 | 21:59:00.1 |      0.200 |      4.616 |</span>
-<span class="go">|         3 | 21:59:00.4 |      0.400 |      3.631 |</span>
+<span class="go">|         1 | 17:21:58.2 |      0.000 |      5.000 |</span>
+<span class="go">|         2 | 17:21:58.4 |      0.200 |      4.616 |</span>
+<span class="go">|         3 | 17:21:58.5 |      0.400 |      3.631 |</span>
 
 
-<span class="go">Transient Scan ID: 3     Time: 2024-08-26 21:59:00</span>
-<span class="go">Persistent Unique Scan ID: &#39;dbd36de9-9dd9-4fa3-a05e-6ae12c26a52c&#39;</span>
+<span class="go">Transient Scan ID: 3     Time: 2025-01-31 17:21:58</span>
+<span class="go">Persistent Unique Scan ID: &#39;69cd9537-5cc7-4bd9-aa22-62eda728eea6&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |     motor1 |       det1 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 21:59:00.6 |      0.000 |      5.000 |</span>
-<span class="go">|         2 | 21:59:00.8 |      0.200 |      4.616 |</span>
-<span class="go">|         3 | 21:59:01.1 |      0.400 |      3.631 |</span>
-<span class="go">|         4 | 21:59:01.3 |      0.600 |      2.434 |</span>
-<span class="go">|         5 | 21:59:01.5 |      0.800 |      1.390 |</span>
-<span class="go">|         6 | 21:59:01.8 |      1.000 |      0.677 |</span>
-<span class="go">|         7 | 21:59:02.0 |      1.200 |      0.281 |</span>
-<span class="go">|         8 | 21:59:02.2 |      1.400 |      0.099 |</span>
+<span class="go">|         1 | 17:21:58.7 |      0.000 |      5.000 |</span>
+<span class="go">|         2 | 17:21:58.9 |      0.200 |      4.616 |</span>
+<span class="go">|         3 | 17:21:59.1 |      0.400 |      3.631 |</span>
+<span class="go">|         4 | 17:21:59.3 |      0.600 |      2.434 |</span>
+<span class="go">|         5 | 17:21:59.5 |      0.800 |      1.390 |</span>
+<span class="go">|         6 | 17:21:59.7 |      1.000 |      0.677 |</span>
+<span class="go">|         7 | 17:21:59.9 |      1.200 |      0.281 |</span>
+<span class="go">|         8 | 17:22:00.1 |      1.400 |      0.099 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator sim_plan_recursive [&#39;dbd36de9&#39;] (scan num: 3)</span>
+<span class="go">generator sim_plan_recursive [&#39;69cd9537&#39;] (scan num: 3)</span>
 
 
 
-<span class="go">|         4 | 21:59:02.8 |      0.600 |      2.434 |</span>
-<span class="go">|         5 | 21:59:03.0 |      0.800 |      1.390 |</span>
-<span class="go">|         6 | 21:59:03.3 |      1.000 |      0.677 |</span>
+<span class="go">|         4 | 17:22:00.6 |      0.600 |      2.434 |</span>
+<span class="go">|         5 | 17:22:00.7 |      0.800 |      1.390 |</span>
+<span class="go">|         6 | 17:22:00.9 |      1.000 |      0.677 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator sim_plan_recursive [&#39;469cd3ff&#39;] (scan num: 2)</span>
+<span class="go">generator sim_plan_recursive [&#39;e76a45e8&#39;] (scan num: 2)</span>
 
 
 
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator sim_plan_recursive [&#39;fdd8ef44&#39;] (scan num: 1)</span>
+<span class="go">generator sim_plan_recursive [&#39;5f3d4a56&#39;] (scan num: 1)</span>
 
 
 
 <span class="gh">Out[4]: </span>
-<span class="go">(&#39;fdd8ef44-61af-469f-af3a-63355aafe31a&#39;,</span>
-<span class="go"> &#39;469cd3ff-d27c-4028-be36-aaa3411b8b61&#39;,</span>
-<span class="go"> &#39;dbd36de9-9dd9-4fa3-a05e-6ae12c26a52c&#39;)</span>
+<span class="go">(&#39;5f3d4a56-0f2c-41bf-989c-62e1ac4279a2&#39;,</span>
+<span class="go"> &#39;e76a45e8-f659-4007-88e4-ea269b67cdc8&#39;,</span>
+<span class="go"> &#39;69cd9537-5cc7-4bd9-aa22-62eda728eea6&#39;)</span>
 </pre></div>
 </div>
 <p>The identical result can be achieved by using <cite>bpp.set_run_key_wrapper()</cite>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Call counter and the maximum number calls</span>
 <span class="n">n_calls</span><span class="p">,</span> <span class="n">n_calls_max</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span>
 
-<span class="k">def</span> <span class="nf">sim_plan_recursive</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sim_plan_recursive</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
     <span class="k">global</span> <span class="n">n_calls</span><span class="p">,</span> <span class="n">n_calls_max</span>
 
     <span class="n">n_calls</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Increment counter</span>
@@ -1258,7 +1233,7 @@ before at each call.</p>
         <span class="n">run_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;run_key_</span><span class="si">{</span><span class="n">n_calls</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{})</span>
-        <span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">plan</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
 
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">npts</span><span class="o">/</span><span class="mi">2</span><span class="p">)):</span>
                 <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">hw</span><span class="o">.</span><span class="n">motor1</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">)</span>
@@ -1312,7 +1287,8 @@ before at each call.</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1335,7 +1311,7 @@ before at each call.</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/bluesky/bluesky/edit/0.1.dev5061+gf25df0b/docs/multi_run_plans.rst">
+    <a href="https://github.com/bluesky/bluesky/edit/0.1.dev5179+g3956788/docs/multi_run_plans.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -1348,13 +1324,13 @@ before at each call.</p>
 </div>
 
   <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="_sources/multi_run_plans.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/multi_run_plans.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
 
 </div></div>
               
@@ -1369,8 +1345,8 @@ before at each call.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1403,7 +1379,8 @@ before at each call.</p>
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>
