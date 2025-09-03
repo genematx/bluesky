@@ -356,6 +356,9 @@ class RunNormalizer(CallbackBase):
                         obj_data_keys_list.remove(name)
                         obj_data_keys_list.append(f"_{name}")
 
+        # Ensure that descriptor includes "configuration"
+        doc["configuration"] = doc.get("configuration", {})
+
         # Rename some fields (in-place) to match the current schema for the descriptor
         # Loop over all dictionaries that specify data_keys (both event data_keys or configuration data_keys)
         conf_data_keys = (obj["data_keys"].values() for obj in doc["configuration"].values())
