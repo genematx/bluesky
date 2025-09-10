@@ -593,7 +593,6 @@ class _RunWriter(CallbackBase):
             self._write_external_data(stream_datum_doc)
 
         # Validate structure for some StreamResource nodes
-        breakpoint()
         for sres_uid, sres_node in self._sres_nodes.items():
             consolidator = self._consolidators[sres_uid]
             if consolidator._sres_parameters.get("_validate", False):
