@@ -351,7 +351,7 @@ class RunNormalizer(CallbackBase):
                 if f"_{name}" in doc["data_keys"].keys():
                     raise ValueError(f"Cannot rename {name} to _{name} because it already exists")
                 doc["data_keys"][f"_{name}"] = doc["data_keys"].pop(name)
-                for obj_data_keys_list in doc["object_keys"].values():
+                for obj_data_keys_list in doc.get("object_keys", {}).values():
                     if name in obj_data_keys_list:
                         obj_data_keys_list.remove(name)
                         obj_data_keys_list.append(f"_{name}")
@@ -376,8 +376,9 @@ class RunNormalizer(CallbackBase):
             ):
                 data_keys_spec["dtype_numpy"] = dtype_numpy
 
-        # Ensure that all event data_keys have object_name assigned (for consistency)
-        for obj_name, data_keys_list in doc["object_keys"].items():
+        # Ensure that all event data_keys have object_name assigned, if known (for consistency)
+        # If "object_keys" are not present, do not reconstruct them -- they are optional
+        for obj_name, data_keys_list in doc.get("object_keys", {}).items():
             for key in data_keys_list:
                 doc["data_keys"][key]["object_name"] = obj_name
 
@@ -592,6 +593,7 @@ class _RunWriter(CallbackBase):
             self._write_external_data(stream_datum_doc)
 
         # Validate structure for some StreamResource nodes
+        breakpoint()
         for sres_uid, sres_node in self._sres_nodes.items():
             consolidator = self._consolidators[sres_uid]
             if consolidator._sres_parameters.get("_validate", False):
