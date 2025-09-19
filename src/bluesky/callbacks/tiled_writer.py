@@ -199,6 +199,8 @@ class RunNormalizer(CallbackBase):
         self._int_keys: set[str] = set()  # Names of internal data_keys
         self._ext_keys: set[str] = set()
 
+        self.notes: list[str] = []    # Human-readable notes about modifications made to the documents
+
     def _convert_resource_to_stream_resource(self, doc: Union[Resource, StreamResource]) -> StreamResource:
         """Make changes to and return a shallow copy of StreamRsource dictionary adhering to the new structure.
 
@@ -337,6 +339,8 @@ class RunNormalizer(CallbackBase):
                 raise RuntimeError(
                     f"Cannot emit StreamDatum for {data_key} because the corresponding Datum document is missing."
                 )
+
+        doc["_run_normalizer_notes"] = self.notes or []    # Add notes about modifications to the stop document
 
         self.emit(DocumentNames.stop, doc)
 
@@ -593,18 +597,25 @@ class _RunWriter(CallbackBase):
             self._write_external_data(stream_datum_doc)
 
         # Validate structure for some StreamResource nodes
+        notes = []
         for sres_uid, sres_node in self._sres_nodes.items():
             consolidator = self._consolidators[sres_uid]
             if consolidator._sres_parameters.get("_validate", False):
+                title = f"Validation of data key '{sres_node.item['id']}'"
                 try:
-                    consolidator.validate(fix_errors=True)
+                    _notes = consolidator.validate(fix_errors=True)
+                    notes.extend([title + ": " + note for note in _notes])
                 except Exception as e:
                     msg = f"{type(e).__name__}: " + str(e).replace("\n", " ").replace("\r", "").strip()
-                    warn(f"Validation of StreamResource {sres_uid} failed with error: {msg}", stacklevel=2)
+                    msg = title + f" failed with error: {msg}"
+                    warn(msg, stacklevel=2)
+                    notes.append(msg)
                 self._update_data_source_for_node(sres_node, consolidator.get_data_source())
 
         # Write the stop document to the metadata
-        self.root_node.update_metadata(metadata={"stop": doc, **dict(self.root_node.metadata)}, drop_revision=True)
+        notes = doc.pop("_run_normalizer_notes", []) + notes  # Retrieve notes from the normalizer, if any
+        md_update = {"stop": doc, **({"notes": notes} if notes else {})}
+        self.root_node.update_metadata(metadata=md_update, drop_revision=True)
 
     def descriptor(self, doc: EventDescriptor):
         desc_name = doc["name"]  # Name of the descriptor/stream

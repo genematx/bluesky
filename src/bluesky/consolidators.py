@@ -1,5 +1,6 @@
 import collections
 import dataclasses
+import importlib
 import enum
 import os
 import re
@@ -10,11 +11,26 @@ import numpy as np
 from event_model.documents import EventDescriptor, StreamDatum, StreamResource
 from tiled.mimetypes import DEFAULT_ADAPTERS_BY_MIMETYPE
 from tiled.structures.array import ArrayStructure, BuiltinDtype, StructDtype
+from tiled.utils import OneShotCachedMap
+
+MAX_CSV_ROWS_PER_CHUNK = 5000
+# User-provided adapters take precedence over defaults.
+CUSTOM_ADAPTERS_BY_MIMETYPE = OneShotCachedMap[str, type](
+    {"application/x-pizzabox-binary": lambda: importlib.import_module(
+            "mng2sql.adapters", __name__
+        ).PizzaBoxAdapter})
+ADAPTERS_BY_MIMETYPE = collections.ChainMap(CUSTOM_ADAPTERS_BY_MIMETYPE, DEFAULT_ADAPTERS_BY_MIMETYPE)
+
 
 # TODO: Move Consolidator classes into external repo (probably area-detector-handlers) and use the existing
 # handler discovery mechanism.
 # GitHub Issue: https://github.com/bluesky/bluesky/issues/1740
 
+def list_summands(A: int, b: int, repeat: int = 1) -> tuple[int, ...]:
+    # Generate a list with repeated b summing up to A; append the remainder if necessary
+    # e.g. list_summands(13, 3) = [3, 3, 3, 3, 1]
+    # if `repeat = n`, n > 1, copy and repeat the entire result n times
+    return tuple([b] * (A // b) + ([A % b] if A % b > 0 else [])) * repeat or (0,)
 
 class StructureFamily(str, enum.Enum):
     array = "array"
@@ -98,7 +114,7 @@ class ConsolidatorBase:
 
         self.data_key = stream_resource["data_key"]
         self.uri = stream_resource["uri"]
-        self.assets: list[Asset] = []
+        self.assets: list[Asset] = [Asset(data_uri=self.uri, is_directory=False, parameter="data_uris", num=0)]
         self._sres_parameters = stream_resource["parameters"]
 
         # Find datum shape and machine dtype
@@ -118,13 +134,14 @@ class ConsolidatorBase:
                     self.datum_shape = (multiplier,) + self.datum_shape
                     # TODO: Check consistency with chunk_shape
 
-        # Determine the machine data type
+        # Determine the machine data type; fall back to np.dtype("float64") if not set
         self.data_type: Union[BuiltinDtype, StructDtype]
-        dtype_numpy = np.dtype(data_desc.get("dtype_numpy"))  # Falls back to np.dtype("float64") if not set
-        if dtype_numpy.kind == "V":
-            self.data_type = StructDtype.from_numpy_dtype(dtype_numpy)
+        dtype_descr = data_desc.get("dtype_numpy")
+        if isinstance(dtype_descr, list):
+            # np.dtype requires tuples in struct dtypes, not lists
+            self.data_type = StructDtype.from_numpy_dtype(np.dtype(list(map(tuple, dtype_descr))))
         else:
-            self.data_type = BuiltinDtype.from_numpy_dtype(dtype_numpy)
+            self.data_type = BuiltinDtype.from_numpy_dtype(np.dtype(dtype_descr))
 
         # Set chunk (or partition) shape
         self.chunk_shape = self._sres_parameters.get("chunk_shape", ())
@@ -140,7 +157,7 @@ class ConsolidatorBase:
 
     @classmethod
     def get_supported_mimetype(cls, sres):
-        if sres["mimetype"] not in cls.supported_mimetypes:
+        if (cls is not ConsolidatorBase) and (sres["mimetype"] not in cls.supported_mimetypes):
             raise ValueError(f"A data source of {sres['mimetype']} type can not be handled by {cls.__name__}.")
         return sres["mimetype"]
 
@@ -177,12 +194,6 @@ class ConsolidatorBase:
         chunk_shape parameter; this is the case when `join_method == "stack"` well.
         Chunking along the trailing dimensions is always preserved as in the original (single) array.
         """
-
-        def list_summands(A: int, b: int, repeat: int = 1) -> tuple[int, ...]:
-            # Generate a list with repeated b summing up to A; append the remainder if necessary
-            # e.g. list_summands(13, 3) = [3, 3, 3, 3, 1]
-            # if `repeat = n`, n > 1, copy and repeat the entire result n times
-            return tuple([b] * (A // b) + ([A % b] if A % b > 0 else [])) * repeat or (0,)
 
         # If chunk shape is less than or equal to the total shape dimensions, chunk each specified dimension
         # starting from the leading dimension
@@ -274,17 +285,11 @@ class ConsolidatorBase:
             management=Management.external,
         )
 
-    def get_adapter(self, adapters_by_mimetype=None):
-        """Return an Adapter suitable for reading the data
+    def get_adapter(self):
+        """Return an Adapter suitable for reading the data"""
 
-        Uses a dictionary mapping of a mimetype to a callable that returns an Adapter instance from_catalog.
-        """
-
-        # User-provided adapters take precedence over defaults.
-        all_adapters_by_mimetype = collections.ChainMap((adapters_by_mimetype or {}), DEFAULT_ADAPTERS_BY_MIMETYPE)
-        adapter_class = all_adapters_by_mimetype[self.mimetype]
-
-        # Mimic the necessary aspects of a tiled node with a namedtuple
+        # Mimic the necessary aspects of a Tiled node with a namedtuple
+        adapter_class = ADAPTERS_BY_MIMETYPE[self.mimetype]
         _Node = collections.namedtuple("Node", ["metadata_", "specs"])
         return adapter_class.from_catalog(self.get_data_source(), _Node({}, []), **self.adapter_parameters())
 
@@ -293,22 +298,21 @@ class ConsolidatorBase:
 
         raise NotImplementedError("This method is not implemented in the base Consolidator class.")
 
-    def validate(self, adapters_by_mimetype=None, fix_errors=False):
+    def validate(self, adapters_by_mimetype=None, fix_errors=False) -> list[str]:
         """Validate the Consolidator's state against the expected structure"""
 
-        # User-provided adapters take precedence over defaults.
-        all_adapters_by_mimetype = collections.ChainMap((adapters_by_mimetype or {}), DEFAULT_ADAPTERS_BY_MIMETYPE)
-        adapter_class = all_adapters_by_mimetype[self.mimetype]
-
         # Initialize adapter from uris and determine the structure
+        adapter_class = ADAPTERS_BY_MIMETYPE[self.mimetype]
         uris = [asset.data_uri for asset in self.assets if asset.parameter == "data_uris"]
         structure = adapter_class.from_uris(*uris, **self.adapter_parameters()).structure()
+        notes = []
 
         if self.shape != structure.shape:
             if not fix_errors:
                 raise ValueError(f"Shape mismatch: {self.shape} != {structure.shape}")
             else:
-                warnings.warn(f"Fixing shape mismatch: {self.shape} -> {structure.shape}", stacklevel=2)
+                msg = f"Fixed shape mismatch: {self.shape} -> {structure.shape}"
+                warnings.warn(msg, stacklevel=2)
                 if self.join_method == "stack":
                     self._num_rows = structure.shape[0]
                     self.datum_shape = structure.shape[1:]
@@ -317,26 +321,30 @@ class ConsolidatorBase:
                     multiplier = 1 if structure.shape[0] % structure.chunks[0][0] else structure.chunks[0][0]
                     self._num_rows = structure.shape[0] // multiplier
                     self.datum_shape = (multiplier,) + structure.shape[1:]
+                notes.append(msg)
 
         if self.chunks != structure.chunks:
             if not fix_errors:
                 raise ValueError(f"Chunk shape mismatch: {self.chunks} != {structure.chunks}")
             else:
                 _chunk_shape = tuple(c[0] for c in structure.chunks)
-                warnings.warn(f"Fixing chunk shape mismatch: {self.chunk_shape} -> {_chunk_shape}", stacklevel=2)
+                msg = f"Fixed chunk shape mismatch: {self.chunk_shape} -> {_chunk_shape}"
+                warnings.warn(msg, stacklevel=2)
                 self.chunk_shape = _chunk_shape
+                notes.append(msg)
 
         if self.data_type != structure.data_type:
             if not fix_errors:
                 raise ValueError(f"dtype mismatch: {self.data_type} != {structure.data_type}")
             else:
-                warnings.warn(
-                    f"Fixing dtype mismatch: {self.data_type.to_numpy_dtype()} -> {structure.data_type.to_numpy_dtype()}",  # noqa
-                    stacklevel=2,
-                )
+                msg = f"Fixed dtype mismatch: {self.data_type.to_numpy_dtype()} -> {structure.data_type.to_numpy_dtype()}"  # noqa
+                warnings.warn(msg, stacklevel=2)
                 self.data_type = structure.data_type
+                notes.append(msg)
 
-        assert self.get_adapter() is not None, "Adapter can not not initialized"
+        assert self.get_adapter() is not None, "Adapter can not be initialized"
+
+        return notes
 
 
 class CSVConsolidator(ConsolidatorBase):
@@ -344,21 +352,79 @@ class CSVConsolidator(ConsolidatorBase):
     join_method: Literal["stack", "concat"] = "concat"
     join_chunks: bool = False
 
-    def __init__(self, stream_resource: StreamResource, descriptor: EventDescriptor):
-        super().__init__(stream_resource, descriptor)
-        self.assets.append(Asset(data_uri=self.uri, is_directory=False, parameter="data_uris"))
-
     def adapter_parameters(self) -> dict:
-        return {**self._sres_parameters}
+        return {"header": None, **self._sres_parameters}
+
+    def validate(self, adapters_by_mimetype=None, fix_errors=False) -> list[str]:
+        if isinstance(self.data_type, StructDtype):
+            # This CSV file is expected to be read as an array of records (structured array)
+            from tiled.adapters.csv import CSVAdapter
+
+            uris = [asset.data_uri for asset in self.assets if asset.parameter == "data_uris"]
+            adapter = CSVAdapter.from_uris(*uris, **self.adapter_parameters())
+            column_dtypes = adapter.structure().arrow_schema_decoded.types
+
+            if len(column_dtypes) != len(self.data_type.fields):
+                raise ValueError(
+                    f"Number of columns mismatch: {len(column_dtypes)} != {len(self.data_type.fields)}"
+                )
+
+            # Construct the true StructDtype of the data as read by the adapter
+            true_numpy_dtype = np.dtype([(expected.name, true.to_pandas_dtype()) for expected, true in zip(self.data_type.fields, column_dtypes)])
+            true_dtype = StructDtype.from_numpy_dtype(true_numpy_dtype)
+
+            if self.data_type != true_dtype:
+                if not fix_errors:
+                    raise ValueError(f"dtype mismatch: {self.data_type} != {true_dtype}")
+                else:
+                    msg = f"Fixed dtype mismatch: {self.data_type.to_numpy_dtype()} -> {true_numpy_dtype}"  # noqa
+                    warnings.warn(msg, stacklevel=2)
+                    self.data_type = true_dtype
+                    notes.append(msg)
+
+            # Get the shape and chunk shape by reading the first column of the CSV file
+            true_shape = true_chunk_shape = (len(adapter.read([0])), 1)    # (nrows, 1)
+            if len(uris) > 1:
+                # There are multiple files.
+                # The chunk size assumed the same for all files and is determined from the first file
+                adapter = CSVAdapter.from_uris(uris[0], **self.adapter_parameters())
+                true_chunk_shape = (len(adapter.read([0])), 1)
+            true_chunks = (list_summands(true_shape[0], true_chunk_shape[0]), (1,))
+
+            if self.shape != true_shape:
+                if not fix_errors:
+                    raise ValueError(f"Shape mismatch: {self.shape} != {true_shape}")
+                else:
+                    msg = f"Fixed shape mismatch: {self.shape} -> {true_shape}"
+                    warnings.warn(msg, stacklevel=2)
+                    if self.join_method == "stack":
+                        self._num_rows = true_shape[0]
+                        self.datum_shape = true_shape[1:]
+                    elif self.join_method == "concat":
+                        # Estimate the number of frames_per_event (multiplier)
+                        multiplier = 1 if true_shape[0] % true_chunks[0][0] else true_chunks[0][0]
+                        self._num_rows = true_shape[0] // multiplier
+                        self.datum_shape = (multiplier,) + true_shape[1:]
+                    notes.append(msg)
+
+            if self.chunks != true_chunks:
+                if not fix_errors:
+                    raise ValueError(f"Chunk shape mismatch: {self.chunks} != {true_chunks}")
+                else:
+                    _chunk_shape = tuple(c[0] for c in true_chunks)
+                    msg = f"Fixed chunk shape mismatch: {self.chunk_shape} -> {_chunk_shape}"
+                    warnings.warn(msg, stacklevel=2)
+                    self.chunk_shape = _chunk_shape
+                    notes.append(msg)
+
+            assert self.get_adapter() is not None, "Adapter can not be initialized"
+
+        else:
+            super().validate(adapters_by_mimetype=adapters_by_mimetype, fix_errors=fix_errors)
 
 
 class HDF5Consolidator(ConsolidatorBase):
     supported_mimetypes = {"application/x-hdf5"}
-
-    def __init__(self, stream_resource: StreamResource, descriptor: EventDescriptor):
-        super().__init__(stream_resource, descriptor)
-        self.assets.append(Asset(data_uri=self.uri, is_directory=False, parameter="data_uris", num=0))
-        self.swmr = self._sres_parameters.get("swmr", True)
 
     def adapter_parameters(self) -> dict:
         """Parameters to be passed to the HDF5 adapter, a dictionary with the keys:
@@ -366,11 +432,14 @@ class HDF5Consolidator(ConsolidatorBase):
         dataset: list[str] - a path to the dataset within the hdf5 file represented as list split at `/`
         swmr: bool -- True to enable the single writer / multiple readers regime
         """
-        params = {"dataset": self._sres_parameters["dataset"], "swmr": self.swmr}
+        params = {"dataset": self._sres_parameters["dataset"]}
         if slice := self._sres_parameters.get("slice", False):
             params["slice"] = slice
         if squeeze := self._sres_parameters.get("squeeze", False):
             params["squeeze"] = squeeze
+
+        params["swmr"] = self._sres_parameters.get("swmr", True)
+        params["locking"] = self._sres_parameters.get("locking", None)
 
         return params
 
@@ -393,6 +462,7 @@ class MultipartRelatedConsolidator(ConsolidatorBase):
     ):
         super().__init__(stream_resource, descriptor)
         self.permitted_extensions: set[str] = permitted_extensions
+        self.assets.clear()      # Assets will be populated based on datum indices
         self.data_uris: list[str] = []
         self.chunk_shape = self.chunk_shape or (1,)  # I.e. number of frames per file (tiff, jpeg, etc.)
         if self.join_method == "concat":
