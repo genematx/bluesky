@@ -553,16 +553,18 @@ class _RunWriter(CallbackBase):
 
         df_client.append_partition(table, 0)
 
-    def _write_external_data(self, doc: StreamDatum):
-        """Register the external data provided in StreamDatum in Tiled"""
+    def _update_consolidator(self, doc: StreamDatum):
+        """Register the external data from StreamDatum in the Consolidator"""
 
         sres_uid, desc_uid = doc["stream_resource"], doc["descriptor"]
         sres_node, consolidator = self.get_sres_node(sres_uid, desc_uid)
         consolidator.consume_stream_datum(doc)
-        self._update_data_source_for_node(sres_node, consolidator.get_data_source())
+
+        return sres_node, consolidator
 
     def _update_data_source_for_node(self, node: BaseClient, data_source: DataSource):
         """Update StreamResource node in Tiled"""
+
         data_source.id = node.data_sources()[0].id  # ID of the existing DataSource record
         handle_error(
             node.context.http_client.put(
@@ -570,6 +572,12 @@ class _RunWriter(CallbackBase):
                 content=safe_json_dump({"data_source": data_source}),
             )
         ).json()
+
+    def _write_external_data(self, doc: StreamDatum):
+        """Write the external data from StreamDatum in Tiled"""
+
+        sres_node, consolidator = self._update_consolidator(doc)
+        self._update_data_source_for_node(sres_node, consolidator.get_data_source())
 
     def start(self, doc: RunStart):
         doc = copy.copy(doc)
@@ -592,14 +600,18 @@ class _RunWriter(CallbackBase):
                 self._write_internal_data(data_cache, desc_node=self._desc_nodes[desc_name])
                 data_cache.clear()
 
-        # Write the cached StreamDatums data
+        # Write the cached StreamDatums data; only update the data_source once per each StreamResource node
+        updated_node_and_cons = set()     # type: set[tuple[BaseClient, ConsolidatorBase]]
         for stream_datum_doc in self._external_data_cache.values():
-            self._write_external_data(stream_datum_doc)
+            sres_node, consolidator = self._update_consolidator(stream_datum_doc)
+            updated_node_and_cons.add((sres_node, consolidator))
+        for sres_node, consolidator in updated_node_and_cons:
+            self._update_data_source_for_node(sres_node, consolidator.get_data_source())
 
-        # Validate structure for some StreamResource nodes
+        # Validate structure for some StreamResource nodes, select unique pairs of (sres_node, consolidator)
         notes = []
-        for sres_uid, sres_node in self._sres_nodes.items():
-            consolidator = self._consolidators[sres_uid]
+        node_and_cons = {(sres_node, self._consolidators[sres_uid]) for sres_uid, sres_node in self._sres_nodes.items()}
+        for sres_node, consolidator in node_and_cons:
             if consolidator._sres_parameters.get("_validate", False):
                 title = f"Validation of data key '{sres_node.item['id']}'"
                 try:
@@ -686,6 +698,7 @@ class _RunWriter(CallbackBase):
             if not desc_uid:
                 raise RuntimeError("Descriptor uid must be specified to initialise a Stream Resource node")
 
+            # Define `full_data_key` as desc_name + _ + data_key to ensure uniqueness across streams
             sres_doc = self._stream_resource_cache[sres_uid]
             desc_node = self._desc_nodes[desc_uid]
             full_data_key = f"{desc_node.item['id']}_{sres_doc['data_key']}"  # desc_name + data_key
