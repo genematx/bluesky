@@ -353,7 +353,18 @@ class CSVConsolidator(ConsolidatorBase):
     join_chunks: bool = False
 
     def adapter_parameters(self) -> dict:
-        return {"header": None, **self._sres_parameters}
+        allowed_keys = { 'comment',
+                                'delimiter',
+                                'dtype',
+                                'encoding',
+                                'header',
+                                'names',
+                                'nrows',
+                                'sep',
+                                'skipfooter',
+                                'skiprows',
+                                'usecols'}
+        return {k:v for k, v in {"header": None, **self._sres_parameters}.items() if k in allowed_keys}
 
     def validate(self, adapters_by_mimetype=None, fix_errors=False) -> list[str]:
         if isinstance(self.data_type, StructDtype):
