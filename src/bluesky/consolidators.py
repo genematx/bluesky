@@ -367,13 +367,18 @@ class CSVConsolidator(ConsolidatorBase):
         return {k:v for k, v in {"header": None, **self._sres_parameters}.items() if k in allowed_keys}
 
     def validate(self, adapters_by_mimetype=None, fix_errors=False) -> list[str]:
+        # CSVConsolidator needs special handling to validate the structure when the data_type is StructDtype.
+        # In this case, we need to check that the number of columns, their names and dtypes match.
+        # The shape and chunks are also validated.
+        # If data_type is BuiltinDtype, we can rely on the base class implementation.
+
         if isinstance(self.data_type, StructDtype):
-            # This CSV file is expected to be read as an array of records (structured array)
             from tiled.adapters.csv import CSVAdapter
 
             uris = [asset.data_uri for asset in self.assets if asset.parameter == "data_uris"]
             adapter = CSVAdapter.from_uris(*uris, **self.adapter_parameters())
             column_dtypes = adapter.structure().arrow_schema_decoded.types
+            notes = []
 
             if len(column_dtypes) != len(self.data_type.fields):
                 raise ValueError(
@@ -431,7 +436,9 @@ class CSVConsolidator(ConsolidatorBase):
             assert self.get_adapter() is not None, "Adapter can not be initialized"
 
         else:
-            super().validate(adapters_by_mimetype=adapters_by_mimetype, fix_errors=fix_errors)
+            notes = super().validate(adapters_by_mimetype=adapters_by_mimetype, fix_errors=fix_errors)
+
+        return notes
 
 
 class HDF5Consolidator(ConsolidatorBase):
