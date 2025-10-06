@@ -689,7 +689,6 @@ class _RunWriter(CallbackBase):
         - sres_uid: the uid of the StreamResource document
         - desc_name + data_key: the name of the descriptor (stream) and the data_key
         """
-
         if sres_uid in self._sres_nodes.keys():
             sres_node = self._sres_nodes[sres_uid]
             consolidator = self._consolidators[sres_uid]

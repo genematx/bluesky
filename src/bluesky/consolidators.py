@@ -155,6 +155,9 @@ class ConsolidatorBase:
         self._num_rows: int = 0  # Number of rows in the Data Source (all rows, includung skips)
         self._seqnums_to_indices_map: dict[int, int] = {}
 
+        # Set the dimension names if provided
+        self.dims = data_desc.get("dims", None)
+
     @classmethod
     def get_supported_mimetype(cls, sres):
         if (cls is not ConsolidatorBase) and (sres["mimetype"] not in cls.supported_mimetypes):
@@ -250,6 +253,7 @@ class ConsolidatorBase:
             data_type=self.data_type,
             shape=self.shape,
             chunks=self.chunks,
+            dims=self.dims,
         )
 
     def consume_stream_datum(self, doc: StreamDatum):
@@ -342,6 +346,19 @@ class ConsolidatorBase:
                 self.data_type = structure.data_type
                 notes.append(msg)
 
+        if (self.dims is not None) and (len(self.dims or ()) != len(structure.shape)):
+            if not fix_errors:
+                raise ValueError(f"Number of dims mismatch: {self.dims} != {structure.shape}")
+            else:
+                old_dims = self.dims or ()
+                if len(old_dims) < len(structure.shape):
+                    self.dims = ("time",) + old_dims + tuple(f"dim{i}" for i in range(len(old_dims)+1, len(structure.shape)))
+                else:
+                    self.dims = old_dims[: len(structure.shape)]
+                msg = f"Fixed number of dims mismatch: {old_dims} -> {self.dims}"
+                warnings.warn(msg, stacklevel=2)
+                notes.append(msg)
+
         assert self.get_adapter() is not None, "Adapter can not be initialized"
 
         return notes
@@ -431,6 +448,19 @@ class CSVConsolidator(ConsolidatorBase):
                     msg = f"Fixed chunk shape mismatch: {self.chunk_shape} -> {_chunk_shape}"
                     warnings.warn(msg, stacklevel=2)
                     self.chunk_shape = _chunk_shape
+                    notes.append(msg)
+
+            if (self.dims is not None) and (len(self.dims or ()) != len(true_shape)):
+                if not fix_errors:
+                    raise ValueError(f"Number of dims mismatch: {self.dims} != {true_shape}")
+                else:
+                    old_dims = self.dims or ()
+                    if len(old_dims) < len(true_shape):
+                        self.dims = ("time",) + old_dims + tuple(f"dim{i}" for i in range(len(old_dims)+1, len(true_shape)))
+                    else:
+                        self.dims = old_dims[: len(true_shape)]
+                    msg = f"Fixed number of dims mismatch: {old_dims} -> {self.dims}"
+                    warnings.warn(msg, stacklevel=2)
                     notes.append(msg)
 
             assert self.get_adapter() is not None, "Adapter can not be initialized"
