@@ -198,6 +198,7 @@ class RunNormalizer(CallbackBase):
         self._emitted: set[str] = set()  # UIDs of the StreamResource documents that have been emitted
         self._int_keys: set[str] = set()  # Names of internal data_keys
         self._ext_keys: set[str] = set()
+        self._specs_by_resource_uid = {}  # Keep track of spec by Resource uid, used to enrich datum_kwargs
 
         self.notes: list[str] = []    # Human-readable notes about modifications made to the documents
 
@@ -448,6 +449,9 @@ class RunNormalizer(CallbackBase):
         if patch := self.patches.get("resource"):
             doc = patch(doc)
 
+        # Keep a reference to the spec of this Resource, if present
+        self._specs_by_resource_uid[doc["uid"]] = doc.get("spec")
+
         # Convert the Resource document to StreamResource format
         self._sres_cache[doc["uid"]] = self._convert_resource_to_stream_resource(doc)
 
@@ -468,9 +472,16 @@ class RunNormalizer(CallbackBase):
 
     def datum(self, doc: Datum):
         doc = copy.copy(doc)
+
+        # Mark the Datum document with the spec of the corresponding Resource, if known
+        if spec := self._specs_by_resource_uid.get(doc["resource"]):
+            doc["datum_kwargs"] = doc.get("datum_kwargs", {}) | {"_resource_spec": spec}
+
+        # Apply any user-defined patches (may depend on the spec in `_resource_spec`)
         if patch := self.patches.get("datum"):
             doc = patch(doc)
 
+        # Keep the Datum document in memory until it is referenced by an Event document
         self._datum_cache[doc["datum_id"]] = doc
 
     def datum_page(self, doc: DatumPage):
