@@ -17,8 +17,11 @@ MAX_CSV_ROWS_PER_CHUNK = 5000
 # User-provided adapters take precedence over defaults.
 CUSTOM_ADAPTERS_BY_MIMETYPE = OneShotCachedMap[str, type](
     {"application/x-pizzabox-binary": lambda: importlib.import_module(
-            "mng2sql.adapters", __name__
-        ).PizzaBoxAdapter})
+            "mng2sql.adapters.pizzabox", __name__
+        ).PizzaBoxAdapter,
+     "application/x-hdf5;type=xia-xmap": lambda: importlib.import_module(
+            "mng2sql.adapters.xiaxmap", __name__
+        ).XIAxMAPAdapter})
 ADAPTERS_BY_MIMETYPE = collections.ChainMap(CUSTOM_ADAPTERS_BY_MIMETYPE, DEFAULT_ADAPTERS_BY_MIMETYPE)
 
 
