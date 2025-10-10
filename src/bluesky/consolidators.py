@@ -2,6 +2,7 @@ import collections
 import dataclasses
 import importlib
 import enum
+import math
 import os
 import re
 import warnings
@@ -159,7 +160,7 @@ class ConsolidatorBase:
         self._seqnums_to_indices_map: dict[int, int] = {}
 
         # Set the dimension names if provided
-        self.dims = data_desc.get("dims", None)
+        self.dims : tuple[str, ...] = tuple(data_desc.get("dims", ()))
 
     @classmethod
     def get_supported_mimetype(cls, sres):
@@ -256,7 +257,7 @@ class ConsolidatorBase:
             data_type=self.data_type,
             shape=self.shape,
             chunks=self.chunks,
-            dims=self.dims,
+            dims=self.dims if self.dims else None,
         )
 
     def consume_stream_datum(self, doc: StreamDatum):
@@ -349,16 +350,16 @@ class ConsolidatorBase:
                 self.data_type = structure.data_type
                 notes.append(msg)
 
-        if (self.dims is not None) and (len(self.dims or ()) != len(structure.shape)):
+        if len(self.dims) != len(structure.shape):
             if not fix_errors:
-                raise ValueError(f"Number of dims mismatch: {self.dims} != {structure.shape}")
+                raise ValueError(f"Number of dimension names mismatch for a {len(structure.shape)}-dimensional array: {self.dims}")  # noqa
             else:
-                old_dims = self.dims or ()
+                old_dims = self.dims
                 if len(old_dims) < len(structure.shape):
                     self.dims = ("time",) + old_dims + tuple(f"dim{i}" for i in range(len(old_dims)+1, len(structure.shape)))
                 else:
                     self.dims = old_dims[: len(structure.shape)]
-                msg = f"Fixed number of dims mismatch: {old_dims} -> {self.dims}"
+                msg = f"Fixed dimension names: {old_dims} -> {self.dims}"
                 warnings.warn(msg, stacklevel=2)
                 notes.append(msg)
 
@@ -396,7 +397,7 @@ class CSVConsolidator(ConsolidatorBase):
             from tiled.adapters.csv import CSVAdapter
 
             uris = [asset.data_uri for asset in self.assets if asset.parameter == "data_uris"]
-            adapter = CSVAdapter.from_uris(*uris, **self.adapter_parameters())
+            adapter = CSVAdapter.from_uris(uris[0], **self.adapter_parameters())   # Initialize from the first file
             column_dtypes = adapter.structure().arrow_schema_decoded.types
             notes = []
 
@@ -419,13 +420,15 @@ class CSVConsolidator(ConsolidatorBase):
                     notes.append(msg)
 
             # Get the shape and chunk shape by reading the first column of the CSV file
-            true_shape = true_chunk_shape = (len(adapter.read([0])), 1)    # (nrows, 1)
-            if len(uris) > 1:
-                # There are multiple files.
-                # The chunk size assumed the same for all files and is determined from the first file
-                adapter = CSVAdapter.from_uris(uris[0], **self.adapter_parameters())
-                true_chunk_shape = (len(adapter.read([0])), 1)
-            true_chunks = (list_summands(true_shape[0], true_chunk_shape[0]), (1,))
+            nrows, npartitions = len(adapter.read([0])), adapter.structure().npartitions
+            dim0_chunks = list_summands(nrows, math.ceil(nrows / npartitions))
+            # If there are multiple files, add their chunks as well
+            for uri in uris[1:]:
+                adapter = CSVAdapter.from_uris(uri, **self.adapter_parameters())
+                nrows, npartitions = len(adapter.read([0])), adapter.structure().npartitions
+                dim0_chunks = (*dim0_chunks, *list_summands(nrows, math.ceil(nrows / npartitions)))
+            # Determine the true shape and chunks for the entire dataset
+            true_shape, true_chunks = (sum(dim0_chunks), 1), (dim0_chunks, (1,))
 
             if self.shape != true_shape:
                 if not fix_errors:
@@ -433,36 +436,38 @@ class CSVConsolidator(ConsolidatorBase):
                 else:
                     msg = f"Fixed shape mismatch: {self.shape} -> {true_shape}"
                     warnings.warn(msg, stacklevel=2)
-                    if self.join_method == "stack":
-                        self._num_rows = true_shape[0]
-                        self.datum_shape = true_shape[1:]
-                    elif self.join_method == "concat":
-                        # Estimate the number of frames_per_event (multiplier)
-                        multiplier = 1 if true_shape[0] % true_chunks[0][0] else true_chunks[0][0]
-                        self._num_rows = true_shape[0] // multiplier
-                        self.datum_shape = (multiplier,) + true_shape[1:]
+                    self._num_rows = true_shape[0]
+                    self.datum_shape = (1, 1) if self.join_method == "concat" else (1, )
                     notes.append(msg)
 
             if self.chunks != true_chunks:
                 if not fix_errors:
                     raise ValueError(f"Chunk shape mismatch: {self.chunks} != {true_chunks}")
                 else:
-                    _chunk_shape = tuple(c[0] for c in true_chunks)
-                    msg = f"Fixed chunk shape mismatch: {self.chunk_shape} -> {_chunk_shape}"
-                    warnings.warn(msg, stacklevel=2)
-                    self.chunk_shape = _chunk_shape
-                    notes.append(msg)
+                    if len(true_chunks[0]) == 1 or (len(set(true_chunks[0][:-1])) == 1 and (true_chunks[0][-1] <= true_chunks[0][0])):
+                        # Either single chunk or all chunks except possibly the last one are the same (larger) size
+                        _chunk_shape = tuple(c[0] for c in true_chunks)
+                        msg = f"Fixed chunk shape mismatch: {self.chunk_shape} -> {_chunk_shape}"
+                        warnings.warn(msg, stacklevel=2)
+                        self.chunk_shape = _chunk_shape
+                        self.join_chunks = True
+                        notes.append(msg)
+                    else:
+                        msg = f"Fixed chunk shape mismatch along the leading dimension: {true_chunks[0]}"
+                        warnings.warn(msg, stacklevel=2)
+                        self.chunks = true_chunks
+                        notes.append(msg)
 
-            if (self.dims is not None) and (len(self.dims or ()) != len(true_shape)):
+            if len(self.dims) != len(true_shape):
                 if not fix_errors:
-                    raise ValueError(f"Number of dims mismatch: {self.dims} != {true_shape}")
+                    raise ValueError(f"Number of dimension names mismatch for a {len(true_shape)}-dimensional array: {self.dims}")  # noqa
                 else:
-                    old_dims = self.dims or ()
+                    old_dims = self.dims
                     if len(old_dims) < len(true_shape):
                         self.dims = ("time",) + old_dims + tuple(f"dim{i}" for i in range(len(old_dims)+1, len(true_shape)))
                     else:
                         self.dims = old_dims[: len(true_shape)]
-                    msg = f"Fixed number of dims mismatch: {old_dims} -> {self.dims}"
+                    msg = f"Fixed dimension names: {old_dims} -> {self.dims}"
                     warnings.warn(msg, stacklevel=2)
                     notes.append(msg)
 
@@ -475,7 +480,7 @@ class CSVConsolidator(ConsolidatorBase):
 
 
 class HDF5Consolidator(ConsolidatorBase):
-    supported_mimetypes = {"application/x-hdf5"}
+    supported_mimetypes = {"application/x-hdf5", "application/x-hdf5;type=xia-xmap"}
 
     def adapter_parameters(self) -> dict:
         """Parameters to be passed to the HDF5 adapter, a dictionary with the keys:
@@ -644,6 +649,7 @@ CONSOLIDATOR_REGISTRY = collections.defaultdict(
         "multipart/related;type=image/tiff": TIFFConsolidator,
         "multipart/related;type=image/jpeg": JPEGConsolidator,
         "multipart/related;type=application/x-npy": NPYConsolidator,
+        "application/x-hdf5;type=xia-xmap": HDF5Consolidator
     },
 )
 
