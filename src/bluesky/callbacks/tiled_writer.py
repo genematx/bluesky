@@ -5,6 +5,7 @@ from collections import defaultdict, deque, namedtuple
 from pathlib import Path
 from typing import Any, Callable, Optional, Union, cast
 from warnings import warn
+import numpy
 
 import pyarrow
 from event_model import (
@@ -80,6 +81,9 @@ MIMETYPE_LOOKUP = defaultdict(
         "ZEBRA_HDF51_FLY_STREAM_V1": "application/x-hdf5",
     },
 )
+
+# Maximum size of internal arrays from Event docs to write to SQL storage; larger arrays will be written as zarr
+MAX_INTERNAL_ARRAY_SIZE = 16
 
 logger = logging.getLogger(__name__)
 
@@ -531,10 +535,12 @@ class _RunWriter(CallbackBase):
         self._desc_nodes: dict[str, Container] = {}  # references to the descriptor nodes by their uid's and names
         self._sres_nodes: dict[str, BaseClient] = {}
         self._internal_tables: dict[str, DataFrameClient] = {}  # references to the internal tables by desc_names
+        self._internal_arrays: dict[str, ArrayClient] = {}
         self._stream_resource_cache: dict[str, StreamResource] = {}
         self._consolidators: dict[str, ConsolidatorBase] = {}
         self._internal_data_cache: dict[str, list[dict[str, Any]]] = defaultdict(list)
         self._external_data_cache: dict[str, StreamDatum] = {}  # sres_uid : (concatenated) StreamDatum
+        self._int_array_keys: dict[str, set[str]] = defaultdict(set)  # data_keys with array data by desc_name
         self._batch_size = batch_size
         self.data_keys: dict[str, DataKey] = {}
         self.access_tags = None
@@ -543,8 +549,26 @@ class _RunWriter(CallbackBase):
         """Write the internal data table to Tiled and clear the cache."""
 
         desc_name = desc_node.item["id"]  # Name of the descriptor (stream)
-        table = pyarrow.Table.from_pylist(data_cache)
 
+        # 1. Write internal array data, if any; remove it from the tabular data
+        for key in self._int_array_keys[desc_name]:
+            array = numpy.array([row.pop(key) for row in data_cache if key in row])
+            if not (arr_client := self._internal_arrays.get(f"{desc_name}/{key}")):
+                # Create a new "internal" array data node and write the initial piece of data
+                metadata = truncate_json_overflow(self.data_keys.get(key, {}))
+                dims = ("time",) + tuple(f"dim_{i}" for i in range(1, array.ndim))
+                arr_client = desc_node.write_array(array, 
+                            key=key,
+                            metadata=metadata,
+                            dims=dims,
+                            access_tags=self.access_tags)
+                self._internal_arrays[f"{desc_name}/{key}"] = arr_client
+            else:
+                arr_client.patch(array, offset=arr_client.shape[:1], extend=True)
+
+        # 2. Write internal tabular data; all array data keys have been removed from data_cache on step 1
+        if not (table := pyarrow.Table.from_pylist(data_cache)):
+            return  # Nothing to write
         if not (df_client := self._internal_tables.get(desc_name)):
             # Create a new "internal" data node and write the initial piece of data
             metadata = {k: v for k, v in self.data_keys.items() if k in table.column_names}
@@ -654,6 +678,10 @@ class _RunWriter(CallbackBase):
                 specs=[Spec("BlueskyEventStream", version="3.0"), Spec("composite")],
                 access_tags=self.access_tags,
             ).base
+            # Keep track of keys for internal array data to be written as zarr, if any
+            for key, val in doc.get("data_keys", {}).items():
+                if ("external" not in val.keys()) and (val.get("dtype") == "array") and (sum(val.get("shape", [])) > MAX_INTERNAL_ARRAY_SIZE):
+                    self._int_array_keys[desc_name].add(key)
         else:
             # Rare Case: This new descriptor likely updates stream configs mid-experiment
             # We assume tha the full descriptor has been already received, so we don't need to store everything
