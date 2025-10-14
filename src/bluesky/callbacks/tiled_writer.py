@@ -535,7 +535,7 @@ class _RunWriter(CallbackBase):
         self._desc_nodes: dict[str, Container] = {}  # references to the descriptor nodes by their uid's and names
         self._sres_nodes: dict[str, BaseClient] = {}
         self._internal_tables: dict[str, DataFrameClient] = {}  # references to the internal tables by desc_names
-        self._internal_arrays: dict[str, ArrayClient] = {}
+        self._internal_arrays: dict[str, ArrayClient] = {}  # refs to the internal arrays by desc_name/data_key
         self._stream_resource_cache: dict[str, StreamResource] = {}
         self._consolidators: dict[str, ConsolidatorBase] = {}
         self._internal_data_cache: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -659,6 +659,8 @@ class _RunWriter(CallbackBase):
                 self._update_data_source_for_node(sres_node, consolidator.get_data_source())
 
         # Write the stop document to the metadata
+        for key in self._internal_arrays.keys():
+            notes.append(f"Internal array data in '{key}' written as zarr format.")
         notes = doc.pop("_run_normalizer_notes", []) + notes  # Retrieve notes from the normalizer, if any
         md_update = {"stop": doc, **({"notes": notes} if notes else {})}
         self.root_node.update_metadata(metadata=md_update, drop_revision=True)
