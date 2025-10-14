@@ -350,7 +350,7 @@ class ConsolidatorBase:
                 self.data_type = structure.data_type
                 notes.append(msg)
 
-        if len(self.dims) != len(structure.shape):
+        if self.dims and (len(self.dims) != len(structure.shape)):
             if not fix_errors:
                 raise ValueError(f"Number of dimension names mismatch for a {len(structure.shape)}-dimensional array: {self.dims}")  # noqa
             else:
