@@ -311,7 +311,7 @@ class ConsolidatorBase:
 
         # Initialize adapter from uris and determine the structure
         adapter_class = ADAPTERS_BY_MIMETYPE[self.mimetype]
-        uris = [asset.data_uri for asset in self.assets if asset.parameter == "data_uris"]
+        uris = [asset.data_uri for asset in self.assets]
         structure = adapter_class.from_uris(*uris, **self.adapter_parameters()).structure()
         notes = []
 
@@ -396,7 +396,7 @@ class CSVConsolidator(ConsolidatorBase):
         if isinstance(self.data_type, StructDtype):
             from tiled.adapters.csv import CSVAdapter
 
-            uris = [asset.data_uri for asset in self.assets if asset.parameter == "data_uris"]
+            uris = [asset.data_uri for asset in self.assets]
             adapter = CSVAdapter.from_uris(uris[0], **self.adapter_parameters())   # Initialize from the first file
             column_dtypes = adapter.structure().arrow_schema_decoded.types
             notes = []
@@ -640,6 +640,19 @@ class NPYConsolidator(MultipartRelatedConsolidator):
         super().__init__({".npy"}, stream_resource, descriptor)
 
 
+class PizzaBoxConsolidator(ConsolidatorBase):
+    supported_mimetypes = {"application/x-pizzabox-binary"}
+
+    def __init__(self, stream_resource: StreamResource, descriptor: EventDescriptor):
+        super().__init__(stream_resource, descriptor)
+
+        uri_bin = self.assets[0].data_uri
+        if not uri_bin.endswith(".bin"):
+            raise ValueError(f"PizzaBox binary file must have a .bin extension: {uri_bin}")
+        uri_txt = uri_bin[:-4] + ".txt"
+        self.assets.append(Asset(data_uri=uri_txt, is_directory=False, parameter="metadata"))
+
+
 CONSOLIDATOR_REGISTRY = collections.defaultdict(
     lambda: ConsolidatorBase,
     {
@@ -649,6 +662,7 @@ CONSOLIDATOR_REGISTRY = collections.defaultdict(
         "multipart/related;type=image/jpeg": JPEGConsolidator,
         "multipart/related;type=application/x-npy": NPYConsolidator,
         "application/x-hdf5;type=xia-xmap": HDF5Consolidator
+        "application/x-pizzabox-binary": PizzaBoxConsolidator,
     },
 )
 
