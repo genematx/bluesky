@@ -458,7 +458,7 @@ class CSVConsolidator(ConsolidatorBase):
                         self.chunks = true_chunks
                         notes.append(msg)
 
-            if len(self.dims) != len(true_shape):
+            if self.dims and (len(self.dims) != len(true_shape)):
                 if not fix_errors:
                     raise ValueError(f"Number of dimension names mismatch for a {len(true_shape)}-dimensional array: {self.dims}")  # noqa
                 else:
@@ -640,19 +640,6 @@ class NPYConsolidator(MultipartRelatedConsolidator):
         super().__init__({".npy"}, stream_resource, descriptor)
 
 
-class PizzaBoxConsolidator(ConsolidatorBase):
-    supported_mimetypes = {"application/x-pizzabox-binary"}
-
-    def __init__(self, stream_resource: StreamResource, descriptor: EventDescriptor):
-        super().__init__(stream_resource, descriptor)
-
-        uri_bin = self.assets[0].data_uri
-        if not uri_bin.endswith(".bin"):
-            raise ValueError(f"PizzaBox binary file must have a .bin extension: {uri_bin}")
-        uri_txt = uri_bin[:-4] + ".txt"
-        self.assets.append(Asset(data_uri=uri_txt, is_directory=False, parameter="metadata"))
-
-
 CONSOLIDATOR_REGISTRY = collections.defaultdict(
     lambda: ConsolidatorBase,
     {
@@ -662,7 +649,6 @@ CONSOLIDATOR_REGISTRY = collections.defaultdict(
         "multipart/related;type=image/jpeg": JPEGConsolidator,
         "multipart/related;type=application/x-npy": NPYConsolidator,
         "application/x-hdf5;type=xia-xmap": HDF5Consolidator,
-        "application/x-pizzabox-binary": PizzaBoxConsolidator,
     },
 )
 
