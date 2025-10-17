@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Utility classes and functions &#8212; bluesky 0.1.dev5179+g3956788 documentation</title>
+    <title>Utility classes and functions &#8212; bluesky 0.1.dev5533+g8adfe3ab1 documentation</title>
   
   
   
@@ -39,14 +39,14 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=040f89a2"></script>
+    <script src="_static/documentation_options.js?v=d9ff6f16"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'utils';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://blueskyproject.io/bluesky/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.1.dev5179+g3956788';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.1.dev5533+g8adfe3ab1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             false;
         </script>
@@ -56,7 +56,7 @@
     <link rel="prev" title="bluesky.bundlers.RunBundler.record_interruption" href="generated/bluesky.bundlers.RunBundler.record_interruption.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.dev5179+g3956788" />
+  <meta name="docsearch:version" content="0.1.dev5533+g8adfe3ab1" />
   </head>
   
   
@@ -504,6 +504,7 @@
 <li class="toctree-l1"><a class="reference internal" href="from-pyepics-to-bluesky.html">Translating Direct PyEpics Code to Bluesky Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="comparison-with-spec.html">Comparison with SPEC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware-interfaces.html">Hardware Interface Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tiled-writer.html">Integration with Tiled</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendix</a></li>
 </ul>
 </div>
@@ -573,6 +574,9 @@
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/bluesky.utils.Msg.html#bluesky.utils.Msg" title="bluesky.utils.Msg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Msg</span></code></a></p></td>
 <td><p>Namedtuple sub-class to encapsulate a message from the plan to the RE.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/bluesky.utils.MsgGenerator.html#bluesky.utils.MsgGenerator" title="bluesky.utils.MsgGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MsgGenerator</span></code></a></p></td>
+<td><p>Object usually returned from plan functions that is fed to the RunEngine</p></td>
 </tr>
 </tbody>
 </table>
@@ -735,7 +739,7 @@ waiting for the plan to complete in the background thread</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/bluesky/bluesky/edit/0.1.dev5179+g3956788/docs/utils.rst">
+    <a href="https://github.com/bluesky/bluesky/edit/0.1.dev5533+g8adfe3ab1/docs/utils.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
