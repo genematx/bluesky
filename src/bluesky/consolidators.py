@@ -574,9 +574,16 @@ class MultipartRelatedConsolidator(ConsolidatorBase):
         This relies on the `template` parameter passed in the StreamResource, which is a string in the "new"
         Python formatting style that can be evaluated to a file name using the `.format(indx)` method given an
         integer index, e.g. "{:05d}.ext".
+
+        If template is not set, we assume that the uri is provided directly in the StreamResource document (i.e.
+        a single file case), and return it as is.
         """
-        assert os.path.splitext(self.template)[1] in self.permitted_extensions
-        return self.uri + self.template.format(indx)
+
+        if self.template:
+            assert os.path.splitext(self.template)[1] in self.permitted_extensions
+            return self.uri + self.template.format(indx)
+        else:
+            return self.uri
 
     def consume_stream_datum(self, doc: StreamDatum):
         """Determine the number and names of files from indices of datums and the number of files per datum.
