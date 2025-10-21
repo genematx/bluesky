@@ -4,7 +4,6 @@ import logging
 from collections import defaultdict, deque, namedtuple
 from pathlib import Path
 from typing import Any, Callable, Optional, Union, cast
-from warnings import warn
 import numpy
 
 import pyarrow
@@ -642,26 +641,10 @@ class _RunWriter(CallbackBase):
         for sres_node, consolidator in updated_node_and_cons:
             self._update_data_source_for_node(sres_node, consolidator.get_data_source())
 
-        # Validate structure for some StreamResource nodes, select unique pairs of (sres_node, consolidator)
-        notes = []
-        node_and_cons = {(sres_node, self._consolidators[sres_uid]) for sres_uid, sres_node in self._sres_nodes.items()}
-        for sres_node, consolidator in node_and_cons:
-            if consolidator._sres_parameters.get("_validate", False):
-                title = f"Validation of data key '{sres_node.item['id']}'"
-                try:
-                    _notes = consolidator.validate(fix_errors=True)
-                    notes.extend([title + ": " + note for note in _notes])
-                except Exception as e:
-                    msg = f"{type(e).__name__}: " + str(e).replace("\n", " ").replace("\r", "").strip()
-                    msg = title + f" failed with error: {msg}"
-                    warn(msg, stacklevel=2)
-                    notes.append(msg)
-                self._update_data_source_for_node(sres_node, consolidator.get_data_source())
-
         # Write the stop document to the metadata
+        notes = doc.pop("_run_normalizer_notes", [])  # Retrieve notes from the normalizer, if any
         for key in self._internal_arrays.keys():
             notes.append(f"Internal array data in '{key}' written as zarr format.")
-        notes = doc.pop("_run_normalizer_notes", []) + notes  # Retrieve notes from the normalizer, if any
         md_update = {"stop": doc, **({"notes": notes} if notes else {})}
         self.root_node.update_metadata(metadata=md_update, drop_revision=True)
 
