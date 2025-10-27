@@ -5,6 +5,7 @@ import enum
 import math
 import os
 import re
+import warnings
 from typing import Any, Literal, Optional, Union, cast
 
 import numpy as np
@@ -305,6 +306,67 @@ class ConsolidatorBase:
 
         raise NotImplementedError("This method is not implemented in the base Consolidator class.")
 
+    def validate(self, adapters_by_mimetype=None, fix_errors=False) -> list[str]:
+        """Validate the Consolidator's state against the expected structure"""
+
+        # Initialize adapter from uris and determine the structure
+        adapter_class = ADAPTERS_BY_MIMETYPE[self.mimetype]
+        uris = [asset.data_uri for asset in self.assets]
+        structure = adapter_class.from_uris(*uris, **self.adapter_parameters()).structure()
+        notes = []
+
+        if self.shape != structure.shape:
+            if not fix_errors:
+                raise ValueError(f"Shape mismatch: {self.shape} != {structure.shape}")
+            else:
+                msg = f"Fixed shape mismatch: {self.shape} -> {structure.shape}"
+                warnings.warn(msg, stacklevel=2)
+                if self.join_method == "stack":
+                    self._num_rows = structure.shape[0]
+                    self.datum_shape = structure.shape[1:]
+                elif self.join_method == "concat":
+                    # Estimate the number of frames_per_event (multiplier)
+                    multiplier = 1 if structure.shape[0] % structure.chunks[0][0] else structure.chunks[0][0]
+                    self._num_rows = structure.shape[0] // multiplier
+                    self.datum_shape = (multiplier,) + structure.shape[1:]
+                notes.append(msg)
+
+        if self.chunks != structure.chunks:
+            if not fix_errors:
+                raise ValueError(f"Chunk shape mismatch: {self.chunks} != {structure.chunks}")
+            else:
+                _chunk_shape = tuple(c[0] for c in structure.chunks)
+                msg = f"Fixed chunk shape mismatch: {self.chunk_shape} -> {_chunk_shape}"
+                warnings.warn(msg, stacklevel=2)
+                self.chunk_shape = _chunk_shape
+                notes.append(msg)
+
+        if self.data_type != structure.data_type:
+            if not fix_errors:
+                raise ValueError(f"dtype mismatch: {self.data_type} != {structure.data_type}")
+            else:
+                msg = f"Fixed dtype mismatch: {self.data_type.to_numpy_dtype()} -> {structure.data_type.to_numpy_dtype()}"  # noqa
+                warnings.warn(msg, stacklevel=2)
+                self.data_type = structure.data_type
+                notes.append(msg)
+
+        if self.dims and (len(self.dims) != len(structure.shape)):
+            if not fix_errors:
+                raise ValueError(f"Number of dimension names mismatch for a {len(structure.shape)}-dimensional array: {self.dims}")  # noqa
+            else:
+                old_dims = self.dims
+                if len(old_dims) < len(structure.shape):
+                    self.dims = ("time",) + old_dims + tuple(f"dim{i}" for i in range(len(old_dims)+1, len(structure.shape)))
+                else:
+                    self.dims = old_dims[: len(structure.shape)]
+                msg = f"Fixed dimension names: {old_dims} -> {self.dims}"
+                warnings.warn(msg, stacklevel=2)
+                notes.append(msg)
+
+        assert self.get_adapter() is not None, "Adapter can not be initialized"
+
+        return notes
+
 
 class CSVConsolidator(ConsolidatorBase):
     supported_mimetypes: set[str] = {"text/csv;header=absent"}
@@ -324,6 +386,97 @@ class CSVConsolidator(ConsolidatorBase):
                                 'skiprows',
                                 'usecols'}
         return {k:v for k, v in {"header": None, **self._sres_parameters}.items() if k in allowed_keys}
+
+    def validate(self, adapters_by_mimetype=None, fix_errors=False) -> list[str]:
+        # CSVConsolidator needs special handling to validate the structure when the data_type is StructDtype.
+        # In this case, we need to check that the number of columns, their names and dtypes match.
+        # The shape and chunks are also validated.
+        # If data_type is BuiltinDtype, we can rely on the base class implementation.
+
+        if isinstance(self.data_type, StructDtype):
+            from tiled.adapters.csv import CSVAdapter
+
+            uris = [asset.data_uri for asset in self.assets]
+            adapter = CSVAdapter.from_uris(uris[0], **self.adapter_parameters())   # Initialize from the first file
+            column_dtypes = adapter.structure().arrow_schema_decoded.types
+            notes = []
+
+            if len(column_dtypes) != len(self.data_type.fields):
+                raise ValueError(
+                    f"Number of columns mismatch: {len(column_dtypes)} != {len(self.data_type.fields)}"
+                )
+
+            # Construct the true StructDtype of the data as read by the adapter
+            true_numpy_dtype = np.dtype([(expected.name, true.to_pandas_dtype()) for expected, true in zip(self.data_type.fields, column_dtypes)])
+            true_dtype = StructDtype.from_numpy_dtype(true_numpy_dtype)
+
+            if self.data_type != true_dtype:
+                if not fix_errors:
+                    raise ValueError(f"dtype mismatch: {self.data_type} != {true_dtype}")
+                else:
+                    msg = f"Fixed dtype mismatch: {self.data_type.to_numpy_dtype()} -> {true_numpy_dtype}"  # noqa
+                    warnings.warn(msg, stacklevel=2)
+                    self.data_type = true_dtype
+                    notes.append(msg)
+
+            # Get the shape and chunk shape by reading the first column of the CSV file
+            nrows, npartitions = len(adapter.read([0])), adapter.structure().npartitions
+            dim0_chunks = list_summands(nrows, math.ceil(nrows / npartitions))
+            # If there are multiple files, add their chunks as well
+            for uri in uris[1:]:
+                adapter = CSVAdapter.from_uris(uri, **self.adapter_parameters())
+                nrows, npartitions = len(adapter.read([0])), adapter.structure().npartitions
+                dim0_chunks = (*dim0_chunks, *list_summands(nrows, math.ceil(nrows / npartitions)))
+            # Determine the true shape and chunks for the entire dataset
+            true_shape, true_chunks = (sum(dim0_chunks), 1), (dim0_chunks, (1,))
+
+            if self.shape != true_shape:
+                if not fix_errors:
+                    raise ValueError(f"Shape mismatch: {self.shape} != {true_shape}")
+                else:
+                    msg = f"Fixed shape mismatch: {self.shape} -> {true_shape}"
+                    warnings.warn(msg, stacklevel=2)
+                    self._num_rows = true_shape[0]
+                    self.datum_shape = (1, 1) if self.join_method == "concat" else (1, )
+                    notes.append(msg)
+
+            if self.chunks != true_chunks:
+                if not fix_errors:
+                    raise ValueError(f"Chunk shape mismatch: {self.chunks} != {true_chunks}")
+                else:
+                    if len(true_chunks[0]) == 1 or (len(set(true_chunks[0][:-1])) == 1 and (true_chunks[0][-1] <= true_chunks[0][0])):
+                        # Either single chunk or all chunks except possibly the last one are the same (larger) size
+                        _chunk_shape = tuple(c[0] for c in true_chunks)
+                        msg = f"Fixed chunk shape mismatch: {self.chunk_shape} -> {_chunk_shape}"
+                        warnings.warn(msg, stacklevel=2)
+                        self.chunk_shape = _chunk_shape
+                        self.join_chunks = True
+                        notes.append(msg)
+                    else:
+                        msg = f"Fixed chunk shape mismatch along the leading dimension: {true_chunks[0]}"
+                        warnings.warn(msg, stacklevel=2)
+                        self.chunks = true_chunks
+                        notes.append(msg)
+
+            if self.dims and (len(self.dims) != len(true_shape)):
+                if not fix_errors:
+                    raise ValueError(f"Number of dimension names mismatch for a {len(true_shape)}-dimensional array: {self.dims}")  # noqa
+                else:
+                    old_dims = self.dims
+                    if len(old_dims) < len(true_shape):
+                        self.dims = ("time",) + old_dims + tuple(f"dim{i}" for i in range(len(old_dims)+1, len(true_shape)))
+                    else:
+                        self.dims = old_dims[: len(true_shape)]
+                    msg = f"Fixed dimension names: {old_dims} -> {self.dims}"
+                    warnings.warn(msg, stacklevel=2)
+                    notes.append(msg)
+
+            assert self.get_adapter() is not None, "Adapter can not be initialized"
+
+        else:
+            notes = super().validate(adapters_by_mimetype=adapters_by_mimetype, fix_errors=fix_errors)
+
+        return notes
 
 
 class HDF5Consolidator(ConsolidatorBase):
