@@ -83,6 +83,7 @@ MIMETYPE_LOOKUP = defaultdict(
 )
 
 # Maximum size of internal arrays from Event docs to write to SQL storage; larger arrays will be written as zarr
+# Set to 0 to write all internal arrays as zarr, and -1 to write all internal arrays to tabular storage.
 MAX_INTERNAL_ARRAY_SIZE = 16
 
 logger = logging.getLogger(__name__)
@@ -529,7 +530,7 @@ class _RunWriter(CallbackBase):
             The Tiled client to use for writing the data.
     """
 
-    def __init__(self, client: BaseClient, batch_size: int = BATCH_SIZE):
+    def __init__(self, client: BaseClient, batch_size: int = BATCH_SIZE, max_internal_array_size: int = MAX_INTERNAL_ARRAY_SIZE):
         self.client = client
         self.root_node: Union[None, Container] = None
         self._desc_nodes: dict[str, Container] = {}  # references to the descriptor nodes by their uid's and names
@@ -542,6 +543,7 @@ class _RunWriter(CallbackBase):
         self._external_data_cache: dict[str, StreamDatum] = {}  # sres_uid : (concatenated) StreamDatum
         self._int_array_keys: dict[str, set[str]] = defaultdict(set)  # data_keys with array data by desc_name
         self._batch_size = batch_size
+        self._max_internal_array_size = max_internal_array_size  # Max size of arrays to write to tabular storage
         self.data_keys: dict[str, DataKey] = {}
         self.access_tags = None
 
@@ -682,7 +684,7 @@ class _RunWriter(CallbackBase):
             ).base
             # Keep track of keys for internal array data to be written as zarr, if any
             for key, val in doc.get("data_keys", {}).items():
-                if ("external" not in val.keys()) and (val.get("dtype") == "array") and (sum(val.get("shape", [])) > MAX_INTERNAL_ARRAY_SIZE):
+                if ("external" not in val.keys()) and (val.get("dtype") == "array") and (0 <= self._max_internal_array_size < sum(val.get("shape", []))):
                     self._int_array_keys[desc_name].add(key)
         else:
             # Rare Case: This new descriptor likely updates stream configs mid-experiment
