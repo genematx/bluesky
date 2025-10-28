@@ -840,6 +840,7 @@ class TiledWriter:
         spec_to_mimetype: Optional[dict[str, str]] = None,
         backup_directory: Optional[str] = None,
         batch_size: int = BATCH_SIZE,
+        max_internal_array_size: int = MAX_INTERNAL_ARRAY_SIZE
     ):
         self.client = client.include_data_sources()
         self.patches = patches or {}
@@ -848,10 +849,11 @@ class TiledWriter:
         self._normalizer = normalizer
         self._run_router = RunRouter([self._factory])
         self._batch_size = batch_size
+        self._max_internal_array_size = max_internal_array_size
 
     def _factory(self, name, doc):
         """Factory method to create a callback for writing a single run into Tiled."""
-        cb = run_writer = _RunWriter(self.client, batch_size=self._batch_size)
+        cb = run_writer = _RunWriter(self.client, batch_size=self._batch_size, max_internal_array_size=self._max_internal_array_size)
 
         if self._normalizer:
             # If normalize is True, create a RunNormalizer callback to update documents to the latest schema
